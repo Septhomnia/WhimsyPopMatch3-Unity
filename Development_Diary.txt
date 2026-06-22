@@ -1,0 +1,43 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+## Day 1 – Setting Up & Planning Projects
+
+*Date: 22 June 2026
+
+## Objectives for Today
+
+* Create the Unity project.
+* Create folder structure.
+* Set up the essential technical objective of the game.
+* Develop the basic board for the match-3 game.
+* Create tiles on the board using a prefab method.
+* Learn how to save and place objects in a grid based game in Unity.
+
+## My Work
+
+Today I worked on the initial Unity 2D project for the match 3 mobile game. I setup the project folders for scripts, sprites, prefabs, sceneries, audio, UI and levels. I set up the Github repository and optimized the project for version control. I made a board object and used a script to define the width and height of the board. Then I created a tile prefab, and fill the board with tile objects using nested loops. Every single tile was generated at a grid point, so the game may auto build an entire board when the scene starts.
+
+I reviewed the main technical requirements of the game including the 8x8 board system, swapping tiles, match detection, falling tiles, refill logic, score system, move system, and level progress.
+
+
+This was the first technical step to develop the match-3 game system. The board, at this point, does not have any logic for matching, falling tiles, exchanging or scoring. The major purpose was to test whether the board could be generated and filled properly.
+
+## Lessons Learned
+
+I learned the importance of structuring a Unity project properly before commencing work. A good folder organization will make the project easier to maintain and will assist me organize code, visuals, sceneries and prefabs.
+
+I learned to make a grid in Unity using nested loops I also learned how to use prefabs to automatically generate several objects rather than setting each tile in the scene manually.
+
+This helped me understand the basic structure behind grid games. Each tile needs a slot, and the board needs to know where each tile is located.
+
+## Issues / Challenges
+
+The first challenge was to decide on the right structure for the project before I started coding. I wanted to start with a clean project from the start.
+
+## Solution / Next Steps
+
+I decided to make the first version simple and just get the core match 3 process working, before I start adding more intricate parts like power-ups, economy and animations.
+
+
+
+
