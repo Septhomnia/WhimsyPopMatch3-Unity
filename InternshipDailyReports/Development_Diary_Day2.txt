@@ -1,0 +1,20 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+## Day 2 – Dot Swipe Detection
+
+*Date: 23 June 2026
+
+
+First, I put and setup a dot object to symbolize objects that will be moving on the board. I changed the sprite settings, inserted the SpriteRenderer and set up the Dot object so that it can be utilized as a visual game piece.
+
+I also began working on the Dot script. Added mouse input detection with OnMouseDown() and OnMouseUp(). This script saves the start and end position of the touch and then calculates the swipe angle with Mathf.Atan2(). This was a key step towards detection of swipe positions in the match-3 game.
+
+On Unity,I tried to see their angles in the console by using Debug.Log(). This helped me understand how Unity reads swipe movements like right, left, up and down.
+
+## What I learned
+
+*How to instantiate random prefabs in Unity.
+*How to organize spawned objects as child objects.
+*How to detect mouse input on a game object.
+*How to calculate swipe angle using two positions.
+*Why a Collider2D is needed for mouse input detection on 2D objects.
