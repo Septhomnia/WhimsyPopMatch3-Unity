@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,10 +9,14 @@ public class BoardManager : MonoBehaviour
     public int width;
     public int height;
     public GameObject tilePrefab;
+    public GameObject[] dots;
     private Tile[,] allTiles;
+    public GameObject[,] allDots;
+
     void Start()
     {
         allTiles = new Tile[width, height];
+        allDots = new GameObject[width, height];
         SetUp();
     }
     private void SetUp()
@@ -24,7 +29,11 @@ public class BoardManager : MonoBehaviour
                 GameObject Tile = Instantiate(tilePrefab, tempPosition ,Quaternion.identity) as GameObject;
                 Tile.transform.parent = this.transform;
                 Tile.name = "(" + i + "," + j + ")";
-
+                int dotToUse = Random.Range(0, dots.Length);
+                GameObject dot = Instantiate(dots[dotToUse], tempPosition, Quaternion.identity);
+                dot.transform.parent = this.transform;
+                dot.name = "(" + i + "," + j + ")";
+                allDots[i, j] = dot;
             }
         }
 
