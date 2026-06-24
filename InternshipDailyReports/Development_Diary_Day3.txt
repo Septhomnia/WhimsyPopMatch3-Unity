@@ -1,6 +1,6 @@
 ## Internship Development Diary — Whimsy Pop Match-3 Game
 
-## Day 2 – Dot Swipe Detection
+## Day 3 – Dot Spawning
 
 *Date: 24 June 2026
 
