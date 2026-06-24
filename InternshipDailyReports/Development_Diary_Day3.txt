@@ -1,0 +1,22 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+## Day 2 – Dot Swipe Detection
+
+*Date: 24 June 2026
+
+I continued to work on the game I called Whimsy Pop.
+
+Today I worked on the dot spawning system. At first I looked if I can see the abstract representation of the point swap in the console. After that I finished the code by adding this swap system.
+
+The movement logic was implemented with Vector2.Lerp() so the dots will smoothly move to their target positions instead of just instantly jumping there. I also added swipe based swapping so when the player swipes right, left, up, or down the selected dot swaps position with the neighbor dot.
+
+When I played it I noticed that the dots were all in the wrong positions and they didn’t stick to the grid well. I found that the problem was mixing X and Y position values in the movement code. I fixed the movement logic and the dots stay on the board correctly now and can be swapped.
+
+# What I learned
+
+*How to detect mouse input on 2D objects.
+*How to calculate swipe angle from two positions.
+*How to use column and row values for grid-based movement.
+*How to move objects smoothly with Vector2.Lerp().
+*How to debug movement problems caused by incorrect X and Y values.
+*How to swap neighboring dots using swipe direction.
