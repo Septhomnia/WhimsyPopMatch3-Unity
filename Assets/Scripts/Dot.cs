@@ -7,6 +7,7 @@ public class Dot : MonoBehaviour
     public int row;
     public int targetX;
     public int targetY;
+    public bool isMatched = false;
     private GameObject otherDot;
     private BoardManager board;
     private Vector2 firstTouchPosition;
@@ -24,6 +25,13 @@ public class Dot : MonoBehaviour
     }
     void Update()
     {
+        FindMatches();
+
+        if (isMatched)
+        {
+            SpriteRenderer mySprite = GetComponent<SpriteRenderer>();
+            mySprite.color = new Color(0f, 0f, 0f, .2f);
+        }
         targetX = column;
         targetY = row;
         if (Mathf.Abs(targetX - transform.position.x) > .1)
@@ -50,7 +58,7 @@ public class Dot : MonoBehaviour
             transform.position = tempPosition;
             board.allDots[column, row] = gameObject;
         }
-    } 
+    }
     private void OnMouseDown()
     {
         firstTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -98,7 +106,20 @@ public class Dot : MonoBehaviour
             row -= 1;
         }
     }
+    void FindMatches()
+    {
+        if (column > 0 && column < board.width - 1)
+        {
+            GameObject leftDot1 = board.allDots[column - 1, row];
+            GameObject rightDot1 = board.allDots[column + 1, row];
+            if (leftDot1.tag == this.gameObject.tag && rightDot1.tag == this.gameObject.tag)
+            {
+                leftDot1.GetComponent<Dot>().isMatched = true;
+                rightDot1.GetComponent<Dot>().isMatched = true;
+            }
+
+        }
+    }
+
+
 }
-
-    
-
