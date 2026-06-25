@@ -1,0 +1,19 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+## Day 4 – Invalid Move Handling
+
+*Date: 25 June 2026
+
+Today, I added the first version of the match detection logic, which means that when the player tries to swap dots they are turning gray.
+
+I also learned about Unity "coroutines" and implemented a coroutine for move checking. This coroutine waits 0.5 seconds then after a tile swap before checkin if the move creates a match. This delay is important because there can be animation, the dots may not match at all etc.
+
+After all that, I added a revert system that when the dots dont matches they are turning back again to their normal positions.
+
+## What I learned
+
+I learned how match detection works for a grid-based puzzle game. The game needs to compare surrounding tiles and see if there are three or more tiles of the same type in a line.
+
+I also learned how to use Unity coroutines to delay actions. It helped me grasp how the game logic might wait for animations or movement to finish before moving to the next stage.
+
+The coroutine improved the swap system by making it more organized, so that the game can wait, check the move, then determine whether to keep the swap or revert it.
