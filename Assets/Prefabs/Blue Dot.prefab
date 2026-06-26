@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 940129673661245191}
   - component: {fileID: 5419658006427352417}
   - component: {fileID: 2315349360791630845}
-  - component: {fileID: 6704506988851269924}
+  - component: {fileID: 4561416093085112337}
   m_Layer: 0
   m_Name: Blue Dot
   m_TagString: Blue Dot
@@ -125,7 +125,7 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.33333334
---- !u!114 &6704506988851269924
+--- !u!114 &4561416093085112337
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -139,7 +139,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   column: 0
   row: 0
+  previousColumn: 0
+  previousRow: 0
   targetX: 0
   targetY: 0
   isMatched: 0
   swipeAngle: 0
+  swipeResist: 1

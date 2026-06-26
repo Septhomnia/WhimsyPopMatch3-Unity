@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1954023389001633557}
   - component: {fileID: 3008115072896518922}
   - component: {fileID: 6784786496211592909}
-  - component: {fileID: 6675200053730663892}
+  - component: {fileID: -3665093938582078721}
   m_Layer: 0
   m_Name: Dark Purple Dot
   m_TagString: Dark Purple Dot
@@ -125,7 +125,7 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.33333334
---- !u!114 &6675200053730663892
+--- !u!114 &-3665093938582078721
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,3 +145,4 @@ MonoBehaviour:
   targetY: 0
   isMatched: 0
   swipeAngle: 0
+  swipeResist: 1

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6834636455083061693}
   - component: {fileID: 7943152205921679207}
   - component: {fileID: 6325335259745054171}
-  - component: {fileID: -2461681181711841511}
+  - component: {fileID: 4780632151318680312}
   m_Layer: 0
   m_Name: Purple Dot
   m_TagString: Purple Dot
@@ -125,7 +125,7 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.33333334
---- !u!114 &-2461681181711841511
+--- !u!114 &4780632151318680312
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -139,7 +139,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   column: 0
   row: 0
+  previousColumn: 0
+  previousRow: 0
   targetX: 0
   targetY: 0
   isMatched: 0
   swipeAngle: 0
+  swipeResist: 1
