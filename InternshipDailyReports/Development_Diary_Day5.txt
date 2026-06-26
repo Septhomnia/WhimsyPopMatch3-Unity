@@ -1,0 +1,16 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+## Day 5 – Dot Matching Logic and Debugging
+
+*Date: 26 June 2026
+
+## What I Worked On
+
+First of all I corrected 2 big gameplay bugs. One was a glitch where if you click anywhere on the board it automatically assumes that you are right-swapping and the other one was that when I click on play it starts with a match. With the patch, dots no longer switch on when the player just clicks on them. This made the input mechanism more regulated and closer to the desired match 3 gameplay behavior.
+
+
+## What I Learned
+
+While working on match detection, I came to the conclusion that the current dot must be marked as matched, as well as its neighboring dots. If only the left, right, up or down dots are marked then the match logic is incomplete.
+
+I also learned more about how the first boards were generated. When the board is first filled, it is better to not create matches, as the player starts with automatic matches that they did not create.
