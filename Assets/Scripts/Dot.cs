@@ -17,7 +17,8 @@ public class Dot : MonoBehaviour
     private Vector2 firstTouchPosition;
     private Vector2 finalTouchPosition;
     private Vector2 tempPosition;
-    public int swipeAngle = 0;
+    public float swipeAngle = 0;
+    public float swipeResist = 1f;
 
     void Start()
     {
@@ -95,9 +96,12 @@ public class Dot : MonoBehaviour
     }
     void CalculateAngle()
     {
-        swipeAngle = (int)(float)(Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x) * 180 / Mathf.PI);
-        // Debug.Log(swipeAngle);
-        MovePieces();
+        if (Mathf.Abs(finalTouchPosition.y - firstTouchPosition.y) > swipeResist || Mathf.Abs(finalTouchPosition.x - firstTouchPosition.x) > swipeResist)
+        {
+            swipeAngle = (int)(float)(Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x) * 180 / Mathf.PI);
+            // Debug.Log(swipeAngle);
+            MovePieces();
+        }
     }
     void MovePieces()
     {

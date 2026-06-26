@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6675200053730663892}
   m_Layer: 0
   m_Name: Dark Purple Dot
-  m_TagString: Purple Dot
+  m_TagString: Dark Purple Dot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -139,6 +139,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   column: 0
   row: 0
+  previousColumn: 0
+  previousRow: 0
   targetX: 0
   targetY: 0
   isMatched: 0
