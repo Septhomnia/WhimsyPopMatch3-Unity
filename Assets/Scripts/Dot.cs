@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 public class Dot : MonoBehaviour
 {
@@ -83,6 +84,8 @@ public class Dot : MonoBehaviour
             {
                 otherDot.GetComponent<Dot>().row = row;
                 otherDot.GetComponent<Dot>().column = column;
+                yield return new WaitForSeconds(.5f);
+                board.currentState = GameState.move;
 
                 row = previousRow;
                 column = previousColumn;
@@ -97,13 +100,19 @@ public class Dot : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        firstTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (board.currentState == GameState.move)
+        {
+            firstTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        }
         //Debug.Log(firstTouchPosition);
     }
     private void OnMouseUp()
     {
-        finalTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        CalculateAngle();
+        if (board.currentState == GameState.move)
+        {
+            finalTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            CalculateAngle();
+        }
     }
     void CalculateAngle()
     {
@@ -111,7 +120,12 @@ public class Dot : MonoBehaviour
         {
             swipeAngle = (int)(float)(Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x) * 180 / Mathf.PI);
             // Debug.Log(swipeAngle);
+            board.currentState = GameState.wait;
             MovePieces();
+        }
+        else
+        {
+            board.currentState = GameState.move;
         }
     }
     void MovePieces()

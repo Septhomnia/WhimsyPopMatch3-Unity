@@ -4,8 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+public enum GameState
+{
+    wait,
+    move
+}
+
 public class BoardManager : MonoBehaviour
 {
+    public GameState currentState = GameState.move;
     public int width;
     public int height;
     public int offSet;
@@ -170,6 +177,8 @@ public class BoardManager : MonoBehaviour
             yield return new WaitForSeconds(.5f);
             DestroyMatches();
         }
+        yield return new WaitForSeconds(.5f);
+        currentState = GameState.move;
     }
 
 
