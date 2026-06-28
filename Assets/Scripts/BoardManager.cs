@@ -8,6 +8,7 @@ public class BoardManager : MonoBehaviour
 {
     public int width;
     public int height;
+    public int offSet;
     public GameObject tilePrefab;
     public GameObject[] dots;
     private Tile[,] allTiles;
@@ -25,7 +26,7 @@ public class BoardManager : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-                Vector2 tempPosition = new Vector2(i, j);
+                Vector2 tempPosition = new Vector2(i, j + offSet);
                 GameObject Tile = Instantiate(tilePrefab, tempPosition, Quaternion.identity) as GameObject;
                 Tile.transform.parent = this.transform;
                 Tile.name = "(" + i + "," + j + ")";
@@ -39,6 +40,8 @@ public class BoardManager : MonoBehaviour
                 maxIterations = 0;
 
                 GameObject dot = Instantiate(dots[dotToUse], tempPosition, Quaternion.identity);
+                dot.GetComponent<Dot>().row = j;
+                dot.GetComponent<Dot>().column = i;
                 dot.transform.parent = this.transform;
                 dot.name = "(" + i + "," + j + ")";
                 allDots[i, j] = dot;
@@ -130,10 +133,12 @@ public class BoardManager : MonoBehaviour
             {
                 if (allDots[i, j] == null)
                 {
-                    Vector2 tempPosition = new Vector2(i, j);
+                    Vector2 tempPosition = new Vector2(i, j + offSet);
                     int dotToUse = Random.Range(0, dots.Length);
                     GameObject piece = Instantiate(dots[dotToUse], tempPosition, Quaternion.identity);
                     allDots[i, j] = piece;
+                    piece.GetComponent<Dot>().row = j;
+                    piece.GetComponent<Dot>().column = i;
                 }
             }
         }
