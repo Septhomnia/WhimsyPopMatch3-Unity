@@ -1,0 +1,17 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+## Day 6 – Core Gameplay Loop Improvements
+
+*Date: 29 June 2026
+
+## What I Worked On
+
+I kept working on the project throughout the weekend, because I wanted to maintain the basic gameplay moving ahead. I worked on various critical parts of the match-3 loop, including player input control, piece movement, getting rid of matched dots, collapsing columns and filling the board.
+
+The big thing I did was add a state machine for player input. Before, the player was sometimes able to interact with the board while other events were still going on. Now the player can move pieces only when the board is ready. This makes the game more stable.
+
+I also put in sliding pieces, not just dropping them in place. Then I added the logic for removing matched dots, shifting down the dots above and refilling the gaps with new dots.
+
+Today I returned to the match detection phase, because I wanted to understand the reasoning more than just throw in code and move on. I changed the setup to check matches from one central point instead of every dot check itself all the time. This gave the code a cleaner look and made it more readable.
+
+I also spent some time debugging the project and walking through the code slowly. In the process I learned about Rubber Duck Debugging. This was a new approach for me but as I worked through the code step by step I could see what I understood and what was still cloudy. It made the debugging seem more manageable.
