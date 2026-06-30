@@ -1,0 +1,13 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+## Day 7 – Bug Fixes and Bomb System
+
+*Date: 30 June 2026
+
+## What I Worked On
+
+Today I mainly worked on fixing bugs in the game. While testing I found multiple parts of the board logic that weren’t working as smoothly as I wanted. The match 3 loop has a lot of connected sections now so I had to check the matching, destroying, collapsing, refilling and input parts together.
+
+I then began to work on the bomb system. It is not finished yet but I started to add the basic logic for it. I tried to figure out how a bomb should be created and how it should act differently than a normal dot.
+
+Today was mostly about testing, correcting bugs and creating the first arrow mechanic for bomb. Then I will continue working on the bomb mechanism and test how it interacts with the rest of the board.
