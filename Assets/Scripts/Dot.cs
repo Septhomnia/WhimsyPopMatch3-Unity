@@ -13,31 +13,53 @@ public class Dot : MonoBehaviour
     public int targetY;
     public bool isMatched = false;
 
+
     private FindMatches findMatches;
     private GameObject otherDot;
     private BoardManager board;
     private Vector2 firstTouchPosition;
     private Vector2 finalTouchPosition;
     private Vector2 tempPosition;
+
+    [Header("Swipe Stuff")]
     public float swipeAngle = 0;
     public float swipeResist = 1f;
 
+    [Header("Powerup Stuff")]
+    public bool isColumnBomb;
+    public bool isRowBomb;
+    public GameObject rowArrow;
+    public GameObject columnArrow;
+
+
     void Start()
     {
+
+        isColumnBomb = false;
+        isRowBomb = false;
+        
         board = Object.FindFirstObjectByType<BoardManager>();
         findMatches = Object.FindFirstObjectByType<FindMatches>();
-        targetX = (int)transform.position.x;
-        targetY = (int)transform.position.y;
+        //targetX = (int)transform.position.x;
+        //targetY = (int)transform.position.y;
         //row = targetY;
         //column = targetX;
         previousRow = row;
         previousColumn = column;
     }
-    void Update()
-    {
-        //FindMatches();
 
-        if (isMatched)
+    //This is for testing and Debug only.
+    private void OnMouseOver()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            isColumnBomb = true;
+            GameObject arrow = Instantiate(columnArrow, transform.position, Quaternion.identity);
+            arrow.transform.parent = this.transform;
+        }
+    }
+    void Update()
+    {  if (isMatched)
         {
             SpriteRenderer mySprite = GetComponent<SpriteRenderer>();
             mySprite.color = new Color(0f, 0f, 0f, .2f);
@@ -50,7 +72,7 @@ public class Dot : MonoBehaviour
 
             tempPosition = new Vector2(targetX, transform.position.y);
             transform.position = Vector2.Lerp(transform.position, tempPosition, .6f);
-            if (board.allDots[column,row] = this.gameObject)
+            if (board.allDots[column, row] != this.gameObject)
             {
                 board.allDots[column, row] = this.gameObject;
             }
@@ -66,12 +88,13 @@ public class Dot : MonoBehaviour
         {
             tempPosition = new Vector2(transform.position.x, targetY);
             transform.position = Vector2.Lerp(transform.position, tempPosition, .6f);
-            if (board.allDots[column, row] = this.gameObject)
+            if (board.allDots[column, row] != this.gameObject)
             {
                 board.allDots[column, row] = this.gameObject;
             }
-            findMatches.FindAllMatches();
-
+                findMatches.FindAllMatches();
+        
+        
         }
         else
         {
