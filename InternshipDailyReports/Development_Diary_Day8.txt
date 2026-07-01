@@ -1,0 +1,19 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+## Day 8 – Destroy Effect and Visual Feedback
+
+*Date: 01 July 2026
+
+## What I Worked On
+
+Today I went through the tutorial video and added a destroy effect to the matching dots. Earlier the dots used to disappear, but it seemed somewhat plain. I wanted the player to observe that something happens when a match is destroyed.
+
+At first the effect wasn't displaying where I wanted it to so I tested it a few times and moved the place where it is made. Corrected, the result appeared more like the dot position.
+
+I'm following a tutorial, but I'm attempting to grasp what each part performs before moving on. That part made me realize how little visual impacts may make the feeling of the game.
+
+Next I will keep evaluating the effects, and maybe keep add other effects to the game.
+
+I also came across the idea of black box testing / black box thinking while going through the course, so I took some time to study up on it. My understanding is that it is a means to test a system by considering input and output and not worrying too much about the internal code first.
+
+It enabled me to think better when I was testing the destroy effect and the match mechanism. Rather than simply asking “what does this code do?” I also started questioning “when I click or make a match, does the game act the way I expect?”

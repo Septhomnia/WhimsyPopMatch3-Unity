@@ -350,6 +350,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1623047403}
   - component: {fileID: 1623047402}
+  - component: {fileID: 1623047404}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -383,6 +384,7 @@ MonoBehaviour:
   - {fileID: 3006054029275288965, guid: 3b747a63c88b26f4faefee93be54d107, type: 3}
   - {fileID: 5535829197739919204, guid: 9953950b89a45ff4cbaf7c610d0c87c8, type: 3}
   - {fileID: 1594911139569449899, guid: cae75074eac39674e8c366b95ae676a4, type: 3}
+  destroyEffect: {fileID: 6121287019702266707, guid: a70883f55f9e7f049bb1ca0cb91a397d, type: 3}
 --- !u!4 &1623047403
 Transform:
   m_ObjectHideFlags: 0
@@ -398,6 +400,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1623047404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1623047401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be83d3d321c50ba44b3f3e67905d1292, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentMatches: []
 --- !u!1 &1877257364
 GameObject:
   m_ObjectHideFlags: 0
