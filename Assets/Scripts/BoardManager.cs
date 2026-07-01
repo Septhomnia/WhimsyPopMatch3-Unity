@@ -19,6 +19,7 @@ public class BoardManager : MonoBehaviour
     public int offSet;
     public GameObject tilePrefab;
     public GameObject[] dots;
+    public GameObject destroyEffect;
     private Tile[,] allTiles;
     public GameObject[,] allDots;
     private FindMatches findMatches;
@@ -90,14 +91,18 @@ public class BoardManager : MonoBehaviour
 
         return false;
     }
-    private void DestroyMatchesAt(int column, int row) {
+    private void DestroyMatchesAt(int column, int row)
+    {
 
         if (allDots[column, row].GetComponent<Dot>().isMatched)
         {
             findMatches.currentMatches.Remove(allDots[column, row]);
+            Instantiate(destroyEffect, allDots[column, row].transform.position, Quaternion.identity);
+
             Destroy(allDots[column, row]);
-                allDots[column, row] = null;
-            }
+            allDots[column, row] = null;
+        }
+
         }
     public void DestroyMatches()
     {

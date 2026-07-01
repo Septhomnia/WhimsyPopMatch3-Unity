@@ -10,8 +10,8 @@ public class Tile : MonoBehaviour
     }
     void Update()
     {
-
-    }
+              
+    }           
     void Initialize()
     {
 
