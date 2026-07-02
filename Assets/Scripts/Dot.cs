@@ -30,6 +30,7 @@ public class Dot : MonoBehaviour
     public bool isRowBomb;
     public GameObject rowArrow;
     public GameObject columnArrow;
+    private GameObject arrow;
 
 
     void Start()
@@ -53,9 +54,15 @@ public class Dot : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            isColumnBomb = true;
-            GameObject arrow = Instantiate(columnArrow, transform.position, Quaternion.identity);
-            arrow.transform.parent = this.transform;
+            isRowBomb = true;
+
+            if (arrow == null)
+            {
+                arrow = Instantiate(rowArrow, transform);
+                arrow.transform.localPosition = Vector3.zero;
+                arrow.transform.localRotation = Quaternion.identity;
+                arrow.transform.localScale = Vector3.one;
+            }
         }
     }
     void Update()
