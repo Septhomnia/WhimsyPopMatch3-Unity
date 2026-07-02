@@ -1,0 +1,13 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+## Day 9 – Row-Clearing Bomb Logic
+
+*Date: 02 July 2026
+
+## What I Worked On
+
+Today I worked some more on the special item section of the project. I added some helpful methods to get all the parts in a selected row and column. These approaches check the board places one by one, gather the existing dots, and mark them as matched.
+
+I also tried out the row-clearing arrow bomb logic. For now, the algorithm can find all the dots in a row, and by right-clicking, I can mark them so that if there is a 3, the whole row can be cleared. It is still an early version 
+
+I also added "System.Linq" as I started to use lists in my code. This phase showed me that exceptional pieces require more thinking than regular matching. A typical match simply checks the nearest pieces, while a row-clearing piece needs to interact with an entire row. Because of this, the code needs helper methods to gather and deal with several elements at a time.
