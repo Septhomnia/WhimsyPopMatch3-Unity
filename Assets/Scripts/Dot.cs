@@ -54,11 +54,11 @@ public class Dot : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            isRowBomb = true;
+            isColumnBomb = true;
 
             if (arrow == null)
             {
-                arrow = Instantiate(rowArrow, transform);
+                arrow = Instantiate(columnArrow, transform);
                 arrow.transform.localPosition = Vector3.zero;
                 arrow.transform.localRotation = Quaternion.identity;
                 arrow.transform.localScale = Vector3.one;
