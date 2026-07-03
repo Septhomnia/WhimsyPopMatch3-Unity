@@ -1,0 +1,17 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+## Day 10 – Match Detection Fixes and Column Bomb Logic
+
+*Date: 03 July 2026
+
+## What I Worked On
+
+Today, I mostly worked on the match detection mechanism, because I had some confusing bugs.
+
+Sometimes a match was displayed on the board, but was not recognized by the game. And sometimes the reverse was true: I moved one dot, but another spot on the board acted like it was matched. I found out this is probably due to way the game saves dots in the allDots[,] array. The visible board and the board memory of the code must be synced.
+
+I spent some time figuring out the difference between where the dot is visually, and where it is in terms of column and row, and where it sits inside the allDots[,] array. This was a helpful insight into why match-3 games require a clear board mechanism beneath the visuals.
+
+I also refreshed some C# basics while working on the project. I learned more about public and private, user-defined types, enums, Vector2, Instantiate(), arrays, lists and function parameters. I learned what a Git branch is too.
+
+Then I started on the column bomb logic. The logic is that if a match has a column bomb, the entire column should be added to the match list. I also discovered that Union() alone doesn't update the original list automatically, thus the result needs to be assigned back or dealt with in some other way.
