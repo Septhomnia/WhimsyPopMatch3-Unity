@@ -97,12 +97,14 @@ public class BoardManager : MonoBehaviour
         if (allDots[column, row].GetComponent<Dot>().isMatched)
         {
             findMatches.currentMatches.Remove(allDots[column, row]);
-
-            Instantiate(
+          
+            GameObject effect = Instantiate(
                 destroyEffect,
                 allDots[column, row].transform.position,
                 Quaternion.identity
             );
+
+            Destroy(effect, 1f);
 
             Destroy(allDots[column, row]);
             allDots[column, row] = null;
