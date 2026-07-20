@@ -1,0 +1,13 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+## Day 11 – Bomb Logic, Destroy Effect and Match System Fixes 
+
+*Date: 04 July 2026
+
+## What I Worked On
+ 
+I resumed working on the match-3 game mechanics in Unity today.
+
+I test then I found several bugs. Sometimes the system was matching unrelated dots, sometimes it didn't make match at all and sometimes bomb arrow images were remaining on the board after the dot was destroyed. I addressed this by making sure the arrow objects are properly attached to the dot and cleaned up when needed.
+
+I did the four-match bomb logic as well. The purpose is the when four dots are matched one of the matched dots should turn into a bomb and the others are destroyed. I discovered that the order of operations matters here. The bomb check must to be done before destroying matching dots, because otherwise, the dot that should turn into a bomb can get destroyed.
