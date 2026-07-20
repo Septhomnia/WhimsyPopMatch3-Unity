@@ -49,20 +49,13 @@ public class Dot : MonoBehaviour
         previousColumn = column;
     }
 
+
     //This is for testing and Debug only.
     private void OnMouseOver()
     {
         if (Input.GetMouseButtonDown(1))
         {
-            isColumnBomb = true;
-
-            if (arrow == null)
-            {
-                arrow = Instantiate(rowArrow, transform);
-                arrow.transform.localPosition = Vector3.zero;
-                arrow.transform.localRotation = Quaternion.identity;
-                arrow.transform.localScale = Vector3.one;
-            }
+            MakeColumnBomb();
         }
     }
     void Update()
@@ -244,29 +237,44 @@ public class Dot : MonoBehaviour
             }
         }
     }
+    private void OnDestroy()
+    {
+        if (arrow != null)
+        {
+            Destroy(arrow);
+        }
+    }
     public void MakeRowBomb()
     {
         isRowBomb = true;
+        isColumnBomb = false;
 
-        if (arrow == null)
+        if (arrow != null)
         {
-            arrow = Instantiate(rowArrow, transform);
-            arrow.transform.localPosition = Vector3.zero;
-            arrow.transform.localRotation = Quaternion.identity;
-            arrow.transform.localScale = Vector3.one;
+            Destroy(arrow);
         }
+
+        arrow = Instantiate(rowArrow);
+        arrow.transform.SetParent(transform, false);
+        arrow.transform.localPosition = Vector3.zero;
+        arrow.transform.localRotation = Quaternion.identity;
+        arrow.transform.localScale = Vector3.one;
     }
 
     public void MakeColumnBomb()
     {
         isColumnBomb = true;
+        isRowBomb = false;
 
-        if (arrow == null)
+        if (arrow != null)
         {
-            arrow = Instantiate(columnArrow, transform);
-            arrow.transform.localPosition = Vector3.zero;
-            arrow.transform.localRotation = Quaternion.identity;
-            arrow.transform.localScale = Vector3.one;
+            Destroy(arrow);
         }
+
+        arrow = Instantiate(columnArrow);
+        arrow.transform.SetParent(transform, false);
+        arrow.transform.localPosition = Vector3.zero;
+        arrow.transform.localRotation = Quaternion.identity;
+        arrow.transform.localScale = Vector3.one;
     }
 }

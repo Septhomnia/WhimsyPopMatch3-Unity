@@ -94,34 +94,38 @@ public class BoardManager : MonoBehaviour
     }
     private void DestroyMatchesAt(int column, int row)
     {
-
         if (allDots[column, row].GetComponent<Dot>().isMatched)
         {
-            //how many elements are in the matched pieces list from findmatches?
-            if(findMatches.currentMatches.Count == 4 || findMatches.currentMatches.Count == 7)
-            {
-                findMatches.CheckBombs();
-            }
             findMatches.currentMatches.Remove(allDots[column, row]);
-            Instantiate(destroyEffect, allDots[column, row].transform.position, Quaternion.identity);
+
+            Instantiate(
+                destroyEffect,
+                allDots[column, row].transform.position,
+                Quaternion.identity
+            );
 
             Destroy(allDots[column, row]);
             allDots[column, row] = null;
         }
-
-        }
+    }
     public void DestroyMatches()
     {
-        for(int i = 0; i < width; i++)
+        if (findMatches.currentMatches.Count == 4 || findMatches.currentMatches.Count == 7)
         {
-            for(int j = 0; j<height; j++)
+            findMatches.CheckBombs();
+        }
+
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
             {
-                if (allDots[i,j] != null)
+                if (allDots[i, j] != null)
                 {
                     DestroyMatchesAt(i, j);
                 }
             }
         }
+
         StartCoroutine(DecreaseRowCo());
     }
     private IEnumerator DecreaseRowCo()

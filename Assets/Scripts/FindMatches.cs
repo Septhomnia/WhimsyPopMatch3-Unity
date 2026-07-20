@@ -122,7 +122,7 @@ public class FindMatches : MonoBehaviour
             }
         }
     }
-
+   
     private void AddToMatchList(GameObject dot)
     {
         if (!currentMatches.Contains(dot))
@@ -215,6 +215,7 @@ public class FindMatches : MonoBehaviour
                     {
                         otherDot.MakeColumnBomb();
                     }
+
                 }
             }
         }
