@@ -1,0 +1,15 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+## Day 12 – Bomb Logic, Destroy Effect and Match System Fixes 
+
+*Date: 05 July 2026
+
+## What I Worked On
+
+I worked on improvements to the bomb system. I added and tested the color bomb logic that should be formed when a 5-match occurs, but it's not done yet. I just checked by right-clicking. I generated a variable in the Dot script called isColorBomb and made a function called MakeColorBomb(). This function marks the dot as a color bomb and adds the rainbow/color bomb visual as a child object of the dot.
+
+Another thing I created is a MatchPiecesOfColor() function in the FindMatches script. This program scans the entire board and tags all dots with the same tag/color as matched. This will be used when you switch a color bomb with another dot.
+
+Then I focused on changing the bomb detection logic. Rather than coding row bomb and column bomb tests several times in the match detection code, I divided them into helper functions like IsRowBomb() and IsColumnBomb(). This makes the code cleaner and easier to understand.
+
+I also corrected a cleanup problem with the destroy effect. After matching dots were destroyed, certain effect items stayed in the scene. I modified the destroy effect logic to have the created effect object destroy itself after a short period of time to reduce extra memory use.
