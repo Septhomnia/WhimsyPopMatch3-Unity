@@ -80,7 +80,7 @@ public class Dot : MonoBehaviour
             {
                 board.allDots[column, row] = this.gameObject;
             }
-            findMatches.FindAllMatches();
+            //findMatches.FindAllMatches();
         }
         else
         {
@@ -96,7 +96,7 @@ public class Dot : MonoBehaviour
             {
                 board.allDots[column, row] = this.gameObject;
             }
-            findMatches.FindAllMatches();
+            //findMatches.FindAllMatches();
 
 
         }
@@ -110,15 +110,22 @@ public class Dot : MonoBehaviour
     {
         yield return new WaitForSeconds(.5f);
 
+        findMatches.FindAllMatches();
+
+        yield return new WaitForSeconds(.3f);
+
         if (otherDot != null)
         {
             if (!isMatched && !otherDot.GetComponent<Dot>().isMatched)
             {
                 otherDot.GetComponent<Dot>().row = row;
                 otherDot.GetComponent<Dot>().column = column;
+
                 row = previousRow;
                 column = previousColumn;
+
                 yield return new WaitForSeconds(.5f);
+
                 board.currentState = GameState.move;
                 board.currentDot = null;
             }
@@ -126,9 +133,7 @@ public class Dot : MonoBehaviour
             {
                 board.DestroyMatches();
             }
-            //otherDot = null;
         }
-
     }
     private void OnMouseDown()
     {
