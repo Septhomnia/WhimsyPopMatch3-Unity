@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class FindMatches : MonoBehaviour
@@ -20,6 +21,9 @@ public class FindMatches : MonoBehaviour
     private IEnumerator FindAllMatchesCo()
     {
         yield return new WaitForSeconds(.2f);
+       
+        currentMatches.Clear();
+
 
         for (int i = 0; i < board.width; i++)
         {
@@ -140,7 +144,25 @@ public class FindMatches : MonoBehaviour
             AddToMatchList(piece);
         }
     }
-
+    public void MatchPiecesOfColor(string color)
+    {
+        for(int i = 0; i < board.width; i++)
+        {
+            for(int j = 0; j <board.height; j++)
+            {
+                //check if that piece exists
+                if (board.allDots[i,j] != null)
+                {
+                    //check the tag on that dot
+                    if (board.allDots[i,j].tag == color)
+                    {
+                        //set that dot to be matched
+                        board.allDots[i, j].GetComponent<Dot>().isMatched = true;
+                    }
+                }
+            }
+        }
+    }
     private List<GameObject> GetColumnPieces(int column)
     {
         List<GameObject> dots = new List<GameObject>();
@@ -170,7 +192,7 @@ public class FindMatches : MonoBehaviour
 
         return dots;
     }
-
+    
     public void CheckBombs()
     {
         // Did the player move something?
@@ -217,6 +239,7 @@ public class FindMatches : MonoBehaviour
                     }
 
                 }
+
             }
         }
     }

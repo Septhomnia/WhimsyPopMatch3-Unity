@@ -26,18 +26,22 @@ public class Dot : MonoBehaviour
     public float swipeResist = 1f;
 
     [Header("Powerup Stuff")]
+    public bool isColorBomb;
     public bool isColumnBomb;
     public bool isRowBomb;
     public GameObject rowArrow;
     public GameObject columnArrow;
     private GameObject arrow;
-
+    public GameObject colorBomb;
+    private GameObject colorBombObject;
 
     void Start()
     {
 
         isColumnBomb = false;
         isRowBomb = false;
+        isColorBomb = false;
+
 
         board = Object.FindFirstObjectByType<BoardManager>();
         findMatches = Object.FindFirstObjectByType<FindMatches>();
@@ -53,9 +57,10 @@ public class Dot : MonoBehaviour
     //This is for testing and Debug only.
     private void OnMouseOver()
     {
+        // DEBUG ONLY: Right click makes this dot a color bomb.
         if (Input.GetMouseButtonDown(1))
         {
-            MakeColumnBomb();
+            MakeColorBomb();
         }
     }
     void Update()
@@ -106,33 +111,82 @@ public class Dot : MonoBehaviour
             transform.position = tempPosition;
         }
     }
+    public void MakeColorBomb()
+    {
+        isColorBomb = true;
+        isRowBomb = false;
+        isColumnBomb = false;
+
+        if (arrow != null)
+        {
+            Destroy(arrow);
+        }
+
+        if (colorBombObject != null)
+        {
+            Destroy(colorBombObject);
+        }
+
+        colorBombObject = Instantiate(colorBomb);
+        colorBombObject.transform.SetParent(transform, false);
+        colorBombObject.transform.localPosition = Vector3.zero;
+        colorBombObject.transform.localRotation = Quaternion.identity;
+        colorBombObject.transform.localScale = Vector3.one;
+    }
+
     public IEnumerator CheckMoveCo()
     {
         yield return new WaitForSeconds(.5f);
 
-        findMatches.FindAllMatches();
-
-        yield return new WaitForSeconds(.3f);
-
         if (otherDot != null)
         {
-            if (!isMatched && !otherDot.GetComponent<Dot>().isMatched)
+            Dot otherDotScript = otherDot.GetComponent<Dot>();
+
+            // Color bomb check
+            if (isColorBomb)
             {
-                otherDot.GetComponent<Dot>().row = row;
-                otherDot.GetComponent<Dot>().column = column;
-
-                row = previousRow;
-                column = previousColumn;
-
-                yield return new WaitForSeconds(.5f);
-
-                board.currentState = GameState.move;
-                board.currentDot = null;
+                findMatches.MatchPiecesOfColor(otherDot.tag);
+                isMatched = true;
+                board.DestroyMatches();
+            }
+            else if (otherDotScript.isColorBomb)
+            {
+                findMatches.MatchPiecesOfColor(this.gameObject.tag);
+                otherDotScript.isMatched = true;
+                board.DestroyMatches();
             }
             else
             {
-                board.DestroyMatches();
+                // Normal match check
+                findMatches.FindAllMatches();
+
+                yield return new WaitForSeconds(.3f);
+
+                if (!isMatched && !otherDotScript.isMatched)
+                {
+                    // Invalid move, swap back
+                    otherDotScript.row = row;
+                    otherDotScript.column = column;
+
+                    row = previousRow;
+                    column = previousColumn;
+
+                    yield return new WaitForSeconds(.5f);
+
+                    board.currentState = GameState.move;
+                    board.currentDot = null;
+                }
+                else
+                {
+                    // Valid move, destroy matched dots
+                    board.DestroyMatches();
+                }
             }
+        }
+        else
+        {
+            board.currentState = GameState.move;
+            board.currentDot = null;
         }
     }
     private void OnMouseDown()
