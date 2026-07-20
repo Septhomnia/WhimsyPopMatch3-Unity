@@ -13,7 +13,6 @@ public class Dot : MonoBehaviour
     public int targetY;
     public bool isMatched = false;
 
-
     private FindMatches findMatches;
     public GameObject otherDot;
     private BoardManager board;
@@ -29,11 +28,16 @@ public class Dot : MonoBehaviour
     public bool isColorBomb;
     public bool isColumnBomb;
     public bool isRowBomb;
+    public bool isAdjacentBomb;
+
+
     public GameObject rowArrow;
     public GameObject columnArrow;
     private GameObject arrow;
     public GameObject colorBomb;
     private GameObject colorBombObject;
+    public GameObject adjacentMarker;
+    private GameObject adjacentMarkerObject;
 
     void Start()
     {
@@ -41,7 +45,7 @@ public class Dot : MonoBehaviour
         isColumnBomb = false;
         isRowBomb = false;
         isColorBomb = false;
-
+        isAdjacentBomb = false;
 
         board = Object.FindFirstObjectByType<BoardManager>();
         findMatches = Object.FindFirstObjectByType<FindMatches>();
@@ -60,7 +64,7 @@ public class Dot : MonoBehaviour
         // DEBUG ONLY: Right click makes this dot a color bomb.
         if (Input.GetMouseButtonDown(1))
         {
-            MakeColorBomb();
+            MakeAdjacentBomb();
         }
     }
     void Update()
@@ -298,9 +302,9 @@ public class Dot : MonoBehaviour
     }
     private void OnDestroy()
     {
-        if (arrow != null)
+        if (adjacentMarkerObject != null)
         {
-            Destroy(arrow);
+            Destroy(adjacentMarkerObject);
         }
     }
     public void MakeRowBomb()
@@ -330,10 +334,53 @@ public class Dot : MonoBehaviour
             Destroy(arrow);
         }
 
-        arrow = Instantiate(columnArrow);
-        arrow.transform.SetParent(transform, false);
+        arrow = Instantiate(columnArrow); if (adjacentMarker != null)
+            arrow.transform.SetParent(transform, false);
         arrow.transform.localPosition = Vector3.zero;
         arrow.transform.localRotation = Quaternion.identity;
         arrow.transform.localScale = Vector3.one;
+    }
+    public void MakeAdjacentBomb()
+    {
+        isAdjacentBomb = true;
+        isRowBomb = false;
+        isColumnBomb = false;
+        isColorBomb = false;
+
+        if (arrow != null)
+        {
+            Destroy(arrow);
+        }
+
+        if (colorBombObject != null)
+        {
+            Destroy(colorBombObject);
+        }
+
+        if (adjacentMarkerObject != null)
+        {
+            Destroy(adjacentMarkerObject);
+        }
+
+        if (adjacentMarker == null)
+        {
+            Debug.LogError("Adjacent Marker prefab is not assigned on " + gameObject.name);
+            return;
+        }
+
+        adjacentMarkerObject = Instantiate(adjacentMarker);
+        adjacentMarkerObject.transform.SetParent(transform, false);
+        adjacentMarkerObject.transform.localPosition = Vector3.zero;
+        adjacentMarkerObject.transform.localRotation = Quaternion.identity;
+        adjacentMarkerObject.transform.localScale = Vector3.one;
+
+        SpriteRenderer markerSprite = adjacentMarkerObject.GetComponent<SpriteRenderer>();
+        SpriteRenderer dotSprite = GetComponent<SpriteRenderer>();
+
+        if (markerSprite != null && dotSprite != null)
+        {
+            markerSprite.sortingLayerID = dotSprite.sortingLayerID;
+            markerSprite.sortingOrder = dotSprite.sortingOrder + 1;
+        }
     }
 }

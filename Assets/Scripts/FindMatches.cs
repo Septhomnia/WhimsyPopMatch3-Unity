@@ -49,6 +49,7 @@ public class FindMatches : MonoBehaviour
                             {
                                 AddPiecesToMatches(IsRowBomb(currentDotScript, leftDotScript, rightDotScript));
                                 AddPiecesToMatches(IsColumnBomb(currentDotScript, leftDotScript, rightDotScript));
+                                AddPiecesToMatches(IsAdjacentBomb(currentDotScript, leftDotScript, rightDotScript));
 
                                 AddToMatchList(leftDot);
                                 AddToMatchList(rightDot);
@@ -73,6 +74,7 @@ public class FindMatches : MonoBehaviour
                             {
                                 AddPiecesToMatches(IsRowBomb(currentDotScript, upDotScript, downDotScript));
                                 AddPiecesToMatches(IsColumnBomb(currentDotScript, upDotScript, downDotScript));
+                                AddPiecesToMatches(IsAdjacentBomb(currentDotScript, upDotScript, downDotScript));
 
                                 AddToMatchList(upDot);
                                 AddToMatchList(downDot);
@@ -95,6 +97,7 @@ public class FindMatches : MonoBehaviour
 
         dot.GetComponent<Dot>().isMatched = true;
     }
+
     private List<GameObject> IsRowBomb(Dot dot1, Dot dot2, Dot dot3)
     {
         List<GameObject> currentDots = new List<GameObject>();
@@ -134,6 +137,47 @@ public class FindMatches : MonoBehaviour
         if (dot3.isColumnBomb)
         {
             currentDots.AddRange(GetColumnPieces(dot3.column));
+        }
+
+        return currentDots;
+    }
+    private List<GameObject> GetAdjacentPieces(int column, int row)
+    {
+        List<GameObject> dots = new List<GameObject>();
+
+        for (int i = column - 1; i <= column + 1; i++)
+        {
+            for (int j = row - 1; j <= row + 1; j++)
+            {
+                if (i >= 0 && i < board.width && j >= 0 && j < board.height)
+                {
+                    if (board.allDots[i, j] != null)
+                    {
+                        dots.Add(board.allDots[i, j]);
+                    }
+                }
+            }
+        }
+
+        return dots;
+    }
+    private List<GameObject> IsAdjacentBomb(Dot dot1, Dot dot2, Dot dot3)
+    {
+        List<GameObject> currentDots = new List<GameObject>();
+
+        if (dot1.isAdjacentBomb)
+        {
+            currentDots.AddRange(GetAdjacentPieces(dot1.column, dot1.row));
+        }
+
+        if (dot2.isAdjacentBomb)
+        {
+            currentDots.AddRange(GetAdjacentPieces(dot2.column, dot2.row));
+        }
+
+        if (dot3.isAdjacentBomb)
+        {
+            currentDots.AddRange(GetAdjacentPieces(dot3.column, dot3.row));
         }
 
         return currentDots;
