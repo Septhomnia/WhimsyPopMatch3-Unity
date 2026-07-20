@@ -1,0 +1,17 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+## Day 13 – Bomb Logic, Destroy Effect and Match System Fixes 
+
+*Date: 08 July 2026
+
+## What I Worked On
+
+I worked on the power-up system.
+
+I added a new power-up type, right next to a bomb. This bomb will affect the surrounding pieces. I included a new boolean variable in the Dot script called isAdjacentBomb and added an adjacentMarker graphic so the player can see if a dot is an adjacent bomb. For now only tried it.
+
+I also made a function called MakeAdjacentBomb(). This function flags the dot as a nearby bomb and adds the marker object as a child of the dot. For to check that the marker is accurately following the dot and that it is in front of the dot by altering the sorting order.
+
+Added the logic to find surrounding explosives in the FindMatches script. I wrote a function GetAdjacentPieces() to get the pieces around the selected dot. Then I tied this into the bomb detection system so that if an adjacent bomb is in a match it adds neighbor pieces to the match list also.
+
+I also tested the power up with right click debug controls. The marking was not visible at first, I had to check the prefab reference and sorting order. That fixed it, and the adjacent bomb marker and it was visible correctly in the scenario.
