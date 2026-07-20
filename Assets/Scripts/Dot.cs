@@ -15,7 +15,7 @@ public class Dot : MonoBehaviour
 
 
     private FindMatches findMatches;
-    private GameObject otherDot;
+    public GameObject otherDot;
     private BoardManager board;
     private Vector2 firstTouchPosition;
     private Vector2 finalTouchPosition;
@@ -38,7 +38,7 @@ public class Dot : MonoBehaviour
 
         isColumnBomb = false;
         isRowBomb = false;
-        
+
         board = Object.FindFirstObjectByType<BoardManager>();
         findMatches = Object.FindFirstObjectByType<FindMatches>();
         //targetX = (int)transform.position.x;
@@ -58,7 +58,7 @@ public class Dot : MonoBehaviour
 
             if (arrow == null)
             {
-                arrow = Instantiate(columnArrow, transform);
+                arrow = Instantiate(rowArrow, transform);
                 arrow.transform.localPosition = Vector3.zero;
                 arrow.transform.localRotation = Quaternion.identity;
                 arrow.transform.localScale = Vector3.one;
@@ -66,11 +66,15 @@ public class Dot : MonoBehaviour
         }
     }
     void Update()
-    {  if (isMatched)
+    {
+        /*
+        if (isMatched)
         {
             SpriteRenderer mySprite = GetComponent<SpriteRenderer>();
+        Color currentColor = mySprite.color;
             mySprite.color = new Color(0f, 0f, 0f, .2f);
         }
+        */
         targetX = column;
         targetY = row;
         if (Mathf.Abs(targetX - transform.position.x) > .1)
@@ -99,9 +103,9 @@ public class Dot : MonoBehaviour
             {
                 board.allDots[column, row] = this.gameObject;
             }
-                findMatches.FindAllMatches();
-        
-        
+            findMatches.FindAllMatches();
+
+
         }
         else
         {
@@ -119,17 +123,17 @@ public class Dot : MonoBehaviour
             {
                 otherDot.GetComponent<Dot>().row = row;
                 otherDot.GetComponent<Dot>().column = column;
-                yield return new WaitForSeconds(.5f);
-                board.currentState = GameState.move;
-
                 row = previousRow;
                 column = previousColumn;
+                yield return new WaitForSeconds(.5f);
+                board.currentState = GameState.move;
+                board.currentDot = null;
             }
             else
             {
                 board.DestroyMatches();
             }
-            otherDot = null;
+            //otherDot = null;
         }
 
     }
@@ -156,6 +160,7 @@ public class Dot : MonoBehaviour
             swipeAngle = (int)(float)(Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x) * 180 / Mathf.PI);
             // Debug.Log(swipeAngle);
             board.currentState = GameState.wait;
+            board.currentDot = this;
             MovePieces();
         }
         else
@@ -237,6 +242,31 @@ public class Dot : MonoBehaviour
                     isMatched = true;
                 }
             }
+        }
+    }
+    public void MakeRowBomb()
+    {
+        isRowBomb = true;
+
+        if (arrow == null)
+        {
+            arrow = Instantiate(rowArrow, transform);
+            arrow.transform.localPosition = Vector3.zero;
+            arrow.transform.localRotation = Quaternion.identity;
+            arrow.transform.localScale = Vector3.one;
+        }
+    }
+
+    public void MakeColumnBomb()
+    {
+        isColumnBomb = true;
+
+        if (arrow == null)
+        {
+            arrow = Instantiate(columnArrow, transform);
+            arrow.transform.localPosition = Vector3.zero;
+            arrow.transform.localRotation = Quaternion.identity;
+            arrow.transform.localScale = Vector3.one;
         }
     }
 }

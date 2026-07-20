@@ -22,6 +22,7 @@ public class BoardManager : MonoBehaviour
     public GameObject destroyEffect;
     private Tile[,] allTiles;
     public GameObject[,] allDots;
+    public Dot currentDot;
     private FindMatches findMatches;
     void Start()
     {
@@ -96,6 +97,11 @@ public class BoardManager : MonoBehaviour
 
         if (allDots[column, row].GetComponent<Dot>().isMatched)
         {
+            //how many elements are in the matched pieces list from findmatches?
+            if(findMatches.currentMatches.Count == 4 || findMatches.currentMatches.Count == 7)
+            {
+                findMatches.CheckBombs();
+            }
             findMatches.currentMatches.Remove(allDots[column, row]);
             Instantiate(destroyEffect, allDots[column, row].transform.position, Quaternion.identity);
 
@@ -186,6 +192,8 @@ public class BoardManager : MonoBehaviour
             yield return new WaitForSeconds(.5f);
             DestroyMatches();
         }
+        findMatches.currentMatches.Clear();
+        currentDot = null;
         yield return new WaitForSeconds(.5f);
         currentState = GameState.move;
     }
