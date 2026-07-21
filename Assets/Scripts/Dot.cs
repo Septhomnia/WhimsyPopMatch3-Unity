@@ -120,6 +120,7 @@ public class Dot : MonoBehaviour
         isColorBomb = true;
         isRowBomb = false;
         isColumnBomb = false;
+        isAdjacentBomb = false;
 
         if (arrow != null)
         {
@@ -311,10 +312,22 @@ public class Dot : MonoBehaviour
     {
         isRowBomb = true;
         isColumnBomb = false;
+        isColorBomb = false;
+        isAdjacentBomb = false;
 
         if (arrow != null)
         {
             Destroy(arrow);
+        }
+
+        if (colorBombObject != null)
+        {
+            Destroy(colorBombObject);
+        }
+
+        if (adjacentMarkerObject != null)
+        {
+            Destroy(adjacentMarkerObject);
         }
 
         arrow = Instantiate(rowArrow);
@@ -328,14 +341,26 @@ public class Dot : MonoBehaviour
     {
         isColumnBomb = true;
         isRowBomb = false;
+        isColorBomb = false;
+        isAdjacentBomb = false;
 
         if (arrow != null)
         {
             Destroy(arrow);
         }
 
-        arrow = Instantiate(columnArrow); if (adjacentMarker != null)
-            arrow.transform.SetParent(transform, false);
+        if (colorBombObject != null)
+        {
+            Destroy(colorBombObject);
+        }
+
+        if (adjacentMarkerObject != null)
+        {
+            Destroy(adjacentMarkerObject);
+        }
+
+        arrow = Instantiate(columnArrow);
+        arrow.transform.SetParent(transform, false);
         arrow.transform.localPosition = Vector3.zero;
         arrow.transform.localRotation = Quaternion.identity;
         arrow.transform.localScale = Vector3.one;

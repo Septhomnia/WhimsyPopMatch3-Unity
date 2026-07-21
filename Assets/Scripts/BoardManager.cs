@@ -110,12 +110,90 @@ public class BoardManager : MonoBehaviour
             allDots[column, row] = null;
         }
     }
-    public void DestroyMatches()
+    private bool ColumnOrRow()
     {
-        if (findMatches.currentMatches.Count == 4 || findMatches.currentMatches.Count == 7)
+        if (findMatches.currentMatches.Count == 0)
         {
+            return false;
+        }
+
+        for (int row = 0; row < height; row++)
+        {
+            int numberHorizontal = 0;
+
+            foreach (GameObject piece in findMatches.currentMatches)
+            {
+                if (piece != null)
+                {
+                    Dot dot = piece.GetComponent<Dot>();
+
+                    if (dot.row == row)
+                    {
+                        numberHorizontal++;
+                    }
+                }
+            }
+
+            if (numberHorizontal >= 5)
+            {
+                return true;
+            }
+        }
+
+        for (int column = 0; column < width; column++)
+        {
+            int numberVertical = 0;
+
+            foreach (GameObject piece in findMatches.currentMatches)
+            {
+                if (piece != null)
+                {
+                    Dot dot = piece.GetComponent<Dot>();
+
+                    if (dot.column == column)
+                    {
+                        numberVertical++;
+                    }
+                }
+            }
+
+            if (numberVertical >= 5)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void CheckToMakeBombs()
+    {
+        int matchCount = findMatches.currentMatches.Count;
+
+        Debug.Log("Bomb check match count: " + matchCount);
+
+        if (matchCount == 4)
+        {
+            Debug.Log("Creating row/column bomb");
             findMatches.CheckBombs();
         }
+        else if (matchCount >= 5)
+        {
+            if (ColumnOrRow())
+            {
+                Debug.Log("Creating color bomb");
+                findMatches.CheckColorBombs();
+            }
+            else
+            {
+                Debug.Log("Creating adjacent bomb");
+                findMatches.CheckAdjacentBombs();
+            }
+        }
+    }
+    public void DestroyMatches()
+    {
+        CheckToMakeBombs();
 
         for (int i = 0; i < width; i++)
         {
@@ -130,6 +208,7 @@ public class BoardManager : MonoBehaviour
 
         StartCoroutine(DecreaseRowCo());
     }
+
     private IEnumerator DecreaseRowCo()
     {
         int nullCount = 0;

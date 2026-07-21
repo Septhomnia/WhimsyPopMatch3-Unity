@@ -15,15 +15,7 @@ public class FindMatches : MonoBehaviour
 
     public void FindAllMatches()
     {
-        StartCoroutine(FindAllMatchesCo());
-    }
-
-    private IEnumerator FindAllMatchesCo()
-    {
-        yield return new WaitForSeconds(.2f);
-
         currentMatches.Clear();
-
 
         for (int i = 0; i < board.width; i++)
         {
@@ -85,6 +77,8 @@ public class FindMatches : MonoBehaviour
                 }
             }
         }
+
+        Debug.Log("FindAllMatches finished. Count: " + currentMatches.Count);
     }
 
 
@@ -191,18 +185,15 @@ public class FindMatches : MonoBehaviour
     }
     public void MatchPiecesOfColor(string color)
     {
-        for(int i = 0; i < board.width; i++)
+        for (int i = 0; i < board.width; i++)
         {
-            for(int j = 0; j <board.height; j++)
+            for (int j = 0; j < board.height; j++)
             {
-                //check if that piece exists
-                if (board.allDots[i,j] != null)
+                if (board.allDots[i, j] != null)
                 {
-                    //check the tag on that dot
-                    if (board.allDots[i,j].tag == color)
+                    if (board.allDots[i, j].tag == color)
                     {
-                        //set that dot to be matched
-                        board.allDots[i, j].GetComponent<Dot>().isMatched = true;
+                        AddToMatchList(board.allDots[i, j]);
                     }
                 }
             }
@@ -237,55 +228,80 @@ public class FindMatches : MonoBehaviour
 
         return dots;
     }
-    
+    public void CheckColorBombs()
+    {
+        Dot dotToMakeBomb = GetBombPiece();
+
+        if (dotToMakeBomb == null)
+        {
+            return;
+        }
+
+        if (!dotToMakeBomb.isColorBomb)
+        {
+            dotToMakeBomb.isMatched = false;
+            dotToMakeBomb.MakeColorBomb();
+        }
+    }
+    public void CheckAdjacentBombs()
+    {
+        Dot dotToMakeBomb = GetBombPiece();
+
+        if (dotToMakeBomb == null)
+        {
+            return;
+        }
+
+        if (!dotToMakeBomb.isAdjacentBomb)
+        {
+            dotToMakeBomb.isMatched = false;
+            dotToMakeBomb.MakeAdjacentBomb();
+        }
+    }
+    private Dot GetBombPiece()
+    {
+        if (board.currentDot == null)
+        {
+            return null;
+        }
+
+        if (board.currentDot.isMatched)
+        {
+            return board.currentDot;
+        }
+
+        if (board.currentDot.otherDot != null)
+        {
+            Dot otherDot = board.currentDot.otherDot.GetComponent<Dot>();
+
+            if (otherDot.isMatched)
+            {
+                return otherDot;
+            }
+        }
+
+        return null;
+    }
     public void CheckBombs()
     {
-        // Did the player move something?
-        if (board.currentDot != null)
+        Dot dotToMakeBomb = GetBombPiece();
+
+        if (dotToMakeBomb == null)
         {
-            // Is the piece they moved matched?
-            if (board.currentDot.isMatched)
-            {
-                // Make it unmatched so it does not get destroyed.
-                board.currentDot.isMatched = false;
+            return;
+        }
 
-                // Decide what kind of bomb to make.
-                int typeOfBomb = Random.Range(0, 100);
+        dotToMakeBomb.isMatched = false;
 
-                if (typeOfBomb < 50)
-                {
-                    board.currentDot.MakeRowBomb();
-                }
-                else
-                {
-                    board.currentDot.MakeColumnBomb();
-                }
-            }
-            // Is the other piece matched?
-            else if (board.currentDot.otherDot != null)
-            {
-                Dot otherDot = board.currentDot.otherDot.GetComponent<Dot>();
+        int typeOfBomb = Random.Range(0, 100);
 
-                if (otherDot.isMatched)
-                {
-                    // Make it unmatched so it does not get destroyed.
-                    otherDot.isMatched = false;
-
-                    // Decide what kind of bomb to make.
-                    int typeOfBomb = Random.Range(0, 100);
-
-                    if (typeOfBomb < 50)
-                    {
-                        otherDot.MakeRowBomb();
-                    }
-                    else
-                    {
-                        otherDot.MakeColumnBomb();
-                    }
-
-                }
-
-            }
+        if (typeOfBomb < 50)
+        {
+            dotToMakeBomb.MakeRowBomb();
+        }
+        else
+        {
+            dotToMakeBomb.MakeColumnBomb();
         }
     }
 }
