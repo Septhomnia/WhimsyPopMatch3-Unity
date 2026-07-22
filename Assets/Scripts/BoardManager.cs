@@ -34,22 +34,27 @@ public class BoardManager : MonoBehaviour
     public GameObject tilePrefab;
     public GameObject[] dots;
     public GameObject destroyEffect;
-    private Tile[,] allTiles;
+    private BackgroundTile[,] allTiles;
     public GameObject[,] allDots;
     public Dot currentDot;
     private FindMatches findMatches;
     public TileType[] boardLayout;
     private bool[,] blankSpaces;
+    public GameObject breakableTilePrefab;
+    private BackgroundTile[,] breakableTiles;
     void Start()
     {
-        allTiles = new Tile[width, height];
-        allDots = new GameObject[width, height];
-        findMatches = Object.FindAnyObjectByType<FindMatches>();
         blankSpaces = new bool[width, height];
+        breakableTiles = new BackgroundTile[width, height];
+        allTiles = new BackgroundTile[width, height];
+        allDots = new GameObject[width, height];
 
+        findMatches = Object.FindAnyObjectByType<FindMatches>();
+
+        DebugCreateBreakableTile();
         GenerateBlankSpaces();
+        GenerateBreakableTiles();
         SetUp();
-
     }
     public void GenerateBlankSpaces()
     {
@@ -127,7 +132,12 @@ public class BoardManager : MonoBehaviour
         if (allDots[column, row].GetComponent<Dot>().isMatched)
         {
             findMatches.currentMatches.Remove(allDots[column, row]);
-          
+
+            if (breakableTiles[column, row] != null)
+            {
+                breakableTiles[column, row].TakeDamage(1);
+            }
+
             GameObject effect = Instantiate(
                 destroyEffect,
                 allDots[column, row].transform.position,
@@ -195,7 +205,27 @@ public class BoardManager : MonoBehaviour
 
         return false;
     }
+    private void DebugCreateBreakableTile()
+    {
+        if (breakableTilePrefab == null)
+        {
+            Debug.LogError("Breakable Tile Prefab is EMPTY in BoardManager Inspector!");
+            return;
+        }
 
+        Vector2 testPosition = new Vector2(0, 0 + offSet);
+
+        GameObject tile = Instantiate(
+            breakableTilePrefab,
+            testPosition,
+            Quaternion.identity
+        );
+
+        tile.transform.parent = this.transform;
+        tile.name = "DEBUG Breakable Tile";
+
+        Debug.Log("DEBUG breakable tile created at: " + testPosition);
+    }
     private void CheckToMakeBombs()
     {
         int matchCount = findMatches.currentMatches.Count;
@@ -261,6 +291,39 @@ public class BoardManager : MonoBehaviour
     //    yield return new WaitForSeconds(.4f);
     //    StartCoroutine(FillBoardCo());
     //}
+    public void GenerateBreakableTiles()
+    {
+        for (int i = 0; i < boardLayout.Length; i++)
+        {
+            if (boardLayout[i].tileKind == TileKind.Breakable)
+            {
+                Vector2 tempPosition = new Vector2(
+                    boardLayout[i].x,
+                    boardLayout[i].y + offSet
+                );
+
+                GameObject tile = Instantiate(
+                    breakableTilePrefab,
+                    tempPosition,
+                    Quaternion.identity
+                );
+
+                tile.transform.parent = this.transform;
+                tile.name = "Breakable Tile (" + boardLayout[i].x + "," + boardLayout[i].y + ")";
+
+                SpriteRenderer sr = tile.GetComponent<SpriteRenderer>();
+                if (sr != null)
+                {
+                    sr.sortingOrder = 2;
+                }
+
+                breakableTiles[boardLayout[i].x, boardLayout[i].y] =
+                    tile.GetComponent<BackgroundTile>();
+
+                Debug.Log("Created breakable tile at: " + boardLayout[i].x + "," + boardLayout[i].y);
+            }
+        }
+    }
     private IEnumerator DecreaseRowCo()
     {
         for (int i = 0; i < width; i++)
