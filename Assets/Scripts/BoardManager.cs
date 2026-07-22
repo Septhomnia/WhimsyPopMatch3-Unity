@@ -9,6 +9,20 @@ public enum GameState
     wait,
     move
 }
+public enum TileKind
+{
+    Breakable,
+    Blank,
+    Normal
+}
+
+[System.Serializable]
+public class TileType
+{
+    public int x;
+    public int y;
+    public TileKind tileKind;
+}
 
 public class BoardManager : MonoBehaviour
 {
@@ -24,13 +38,28 @@ public class BoardManager : MonoBehaviour
     public GameObject[,] allDots;
     public Dot currentDot;
     private FindMatches findMatches;
+    public TileType[] boardLayout;
+    private bool[,] blankSpaces;
     void Start()
     {
         allTiles = new Tile[width, height];
         allDots = new GameObject[width, height];
         findMatches = Object.FindAnyObjectByType<FindMatches>();
+        blankSpaces = new bool[width, height];
+
+        GenerateBlankSpaces();
         SetUp();
 
+    }
+    public void GenerateBlankSpaces()
+    {
+        for (int i = 0; i < boardLayout.Length; i++)
+        {
+            if (boardLayout[i].tileKind == TileKind.Blank)
+            {
+                blankSpaces[boardLayout[i].x, boardLayout[i].y] = true;
+            }
+        }
     }
     private void SetUp()
     {
@@ -38,33 +67,35 @@ public class BoardManager : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-                Vector2 tempPosition = new Vector2(i, j + offSet);
-                GameObject Tile = Instantiate(tilePrefab, tempPosition, Quaternion.identity) as GameObject;
-                Tile.transform.parent = this.transform;
-                Tile.name = "(" + i + "," + j + ")";
-                int dotToUse = Random.Range(0, dots.Length);
-                int maxIterations = 0;
-                while (MatchesAt(i, j, dots[dotToUse]) && maxIterations < 100)
+                if (!blankSpaces[i, j])
                 {
-                    dotToUse = Random.Range(0, dots.Length);
-                    maxIterations++;
-                }
-                maxIterations = 0;
+                    Vector2 tempPosition = new Vector2(i, j + offSet);
 
-                GameObject dot = Instantiate(dots[dotToUse], tempPosition, Quaternion.identity);
-                dot.GetComponent<Dot>().row = j;
-                dot.GetComponent<Dot>().column = i;
-                dot.transform.parent = this.transform;
-                dot.name = "(" + i + "," + j + ")";
-                allDots[i, j] = dot;
+                    GameObject tile = Instantiate(tilePrefab, tempPosition, Quaternion.identity);
+                    tile.transform.parent = this.transform;
+                    tile.name = "(" + i + "," + j + ")";
+
+                    int dotToUse = Random.Range(0, dots.Length);
+                    int maxIterations = 0;
+
+                    while (MatchesAt(i, j, dots[dotToUse]) && maxIterations < 100)
+                    {
+                        dotToUse = Random.Range(0, dots.Length);
+                        maxIterations++;
+                    }
+
+                    GameObject dot = Instantiate(dots[dotToUse], tempPosition, Quaternion.identity);
+                    dot.GetComponent<Dot>().row = j;
+                    dot.GetComponent<Dot>().column = i;
+                    dot.transform.parent = this.transform;
+                    dot.name = "(" + i + "," + j + ")";
+                    allDots[i, j] = dot;
+                }
             }
         }
-
     }
     private bool MatchesAt(int column, int row, GameObject piece)
     {
-        // Horizontal check
-        // Soldaki iki dot ayný tag'e sahip mi?
         if (column > 1)
         {
             if (allDots[column - 1, row] != null && allDots[column - 2, row] != null)
@@ -77,7 +108,6 @@ public class BoardManager : MonoBehaviour
             }
         }
 
-        // Vertical check
         if (row > 1)
         {
             if (allDots[column, row - 1] != null && allDots[column, row - 2] != null)
@@ -209,28 +239,51 @@ public class BoardManager : MonoBehaviour
         StartCoroutine(DecreaseRowCo());
     }
 
+    //private IEnumerator DecreaseRowCo()
+    //{
+    //    int nullCount = 0;
+    //    for (int i = 0; i < width; i++)
+    //    {
+    //        for (int j = 0; j < height; j++)
+    //        {
+    //            if (allDots[i, j] == null)
+    //            {
+    //                nullCount++;
+    //            }
+    //            else if (nullCount > 0)
+    //            {
+    //                allDots[i, j].GetComponent<Dot>().row -= nullCount;
+    //                allDots[i, j] = null;
+    //            }
+    //        }
+    //        nullCount = 0;
+    //    }
+    //    yield return new WaitForSeconds(.4f);
+    //    StartCoroutine(FillBoardCo());
+    //}
     private IEnumerator DecreaseRowCo()
     {
-        int nullCount = 0;
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
             {
-                if (allDots[i, j] == null)
+                if (!blankSpaces[i, j] && allDots[i, j] == null)
                 {
-                    nullCount++;
-                }
-                else if (nullCount > 0)
-                {
-                    allDots[i, j].GetComponent<Dot>().row -= nullCount;
-                    allDots[i, j] = null;
+                    for (int k = j + 1; k < height; k++)
+                    {
+                        if (allDots[i, k] != null)
+                        {
+                            allDots[i, k].GetComponent<Dot>().row = j;
+                            allDots[i, k] = null;
+                            break;
+                        }
+                    }
                 }
             }
-            nullCount = 0;
         }
+
         yield return new WaitForSeconds(.4f);
         StartCoroutine(FillBoardCo());
-        
     }
     private void RefillBoard()
     {
@@ -238,7 +291,7 @@ public class BoardManager : MonoBehaviour
         {
             for(int j= 0; j < height; j++)
             {
-                if (allDots[i, j] == null)
+                if (allDots[i, j] == null && !blankSpaces[i, j])
                 {
                     Vector2 tempPosition = new Vector2(i, j + offSet);
                     int dotToUse = Random.Range(0, dots.Length);
