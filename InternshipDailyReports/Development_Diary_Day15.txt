@@ -1,0 +1,17 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+## Day 15 – Camera Scaling and Board Layout Testing
+
+*Date: 10 July 2026
+
+I worked on the camera and board layout of my match-3 game today.
+
+The first thing I did was make sure that the board was always in view of the camera. In the past when I resized the board it could look too big, too small or not properly centred. I set up a script to scale the camera to find the size of the board and relocate the camera to the center of the board. It also modifies the orthographic size, so the entire board is displayed on the screen.
+
+I tested this by changing the width and height values of the board . For example I experimented with larger and taller board sizes to see if the camera still showed everything accurately. This taught me how camera position, orthographic size, padding and aspect ratio work in a 2D game in unity.
+
+I also began to work on board layout features. I looked up how to make empty spaces on the board. These are cells that should not have a tile or dot made in them. I added a tile type system with an enum for that. This will help me later in making diverse shaped boards, instead of the regular rectangle board.
+
+Actually I changed the board setup logic to test if a cell is blank before placing a tile or dot there. Also I checked the refill and fall logic because dots shouldn't spawn or fall into blank spaces.
+
+Today's work showed me that the board system is not only about spawning dots. The camera, the layout, the blank spots, and the movement logic all have to work together.
