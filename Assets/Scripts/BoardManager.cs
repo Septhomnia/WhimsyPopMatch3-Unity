@@ -54,6 +54,13 @@ public class BoardManager : MonoBehaviour
         GenerateBreakableTiles();
         SetUp();
     }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            ShuffleBoard();
+        }
+    }
     public void GenerateBlankSpaces()
     {
         for (int i = 0; i < boardLayout.Length; i++)
@@ -471,7 +478,7 @@ public class BoardManager : MonoBehaviour
     {
         for (int i = 0; i < width; i++)
         {
-            for(int j= 0; j < height; j++)
+            for (int j = 0; j < height; j++)
             {
                 if (allDots[i, j] == null && !blankSpaces[i, j])
                 {
@@ -487,11 +494,11 @@ public class BoardManager : MonoBehaviour
     }
     private bool MatchesOnBoard()
     {
-        for(int i = 0; i<width; i++)
+        for (int i = 0; i < width; i++)
         {
-            for (int j = 0; j<height; j++)
+            for (int j = 0; j < height; j++)
             {
-                if (allDots[i, j]!= null)
+                if (allDots[i, j] != null)
                 {
                     if (allDots[i, j].GetComponent<Dot>().isMatched)
                     {
@@ -503,15 +510,74 @@ public class BoardManager : MonoBehaviour
         return false;
 
     }
+    private void ShuffleBoard()
+    {
+        List<GameObject> newBoard = new List<GameObject>();
+
+        // Board üzerindeki bütün mevcut dotlarý listeye ekle
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                if (allDots[i, j] != null)
+                {
+                    newBoard.Add(allDots[i, j]);
+                    allDots[i, j] = null;
+                }
+            }
+        }
+
+        // Board'daki boþ olmayan yerlere dotlarý rastgele geri yerleþtir
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                if (!blankSpaces[i, j])
+                {
+                    int pieceToUse = Random.Range(0, newBoard.Count);
+                    int maxIterations = 0;
+
+                    while (MatchesAt(i, j, newBoard[pieceToUse]) && maxIterations < 100)
+                    {
+                        pieceToUse = Random.Range(0, newBoard.Count);
+                        maxIterations++;
+                    }
+
+                    Dot piece = newBoard[pieceToUse].GetComponent<Dot>();
+
+                    piece.column = i;
+                    piece.row = j;
+                    piece.isMatched = false;
+                    piece.otherDot = null;
+
+                    allDots[i, j] = newBoard[pieceToUse];
+
+                    newBoard.RemoveAt(pieceToUse);
+                }
+            }
+        }
+
+        if (IsDeadlocked())
+        {
+            Debug.Log("Still deadlocked, shuffling again.");
+            ShuffleBoard();
+        }
+        else
+        {
+            Debug.Log("Board shuffled successfully.");
+        }
+    }
     private IEnumerator FillBoardCo()
     {
         RefillBoard();
         yield return new WaitForSeconds(.5f);
+
         while (MatchesOnBoard())
         {
             yield return new WaitForSeconds(.5f);
             DestroyMatches();
         }
+
         findMatches.currentMatches.Clear();
         currentDot = null;
         yield return new WaitForSeconds(.5f);
@@ -519,10 +585,9 @@ public class BoardManager : MonoBehaviour
         if (IsDeadlocked())
         {
             Debug.Log("Deadlocked!!!");
+            ShuffleBoard();
         }
 
         currentState = GameState.move;
-
     }
-    }
-        
+}
