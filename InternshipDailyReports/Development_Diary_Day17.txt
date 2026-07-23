@@ -1,0 +1,17 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+# Day 17 - Deadlock Detection
+
+*Date: 14 July 2026
+
+Today I worked on adding deadlock detection to my match-3 game.
+
+The idea was to see if there was any moves remaining on the board possible. In a match-3 game, there can be situations where no swap can lead to a match. The game should detect this so I may later reorganize the board or give the player a fresh playable setup.
+
+To achieve this, I added a few helper functions. I added a function that swaps two components in the board array for a short-term. So, I added a function that checks if there is any match on the board after that temporary switch. Once verified, the pieces are returned to their rightful positions.
+
+Then I wrote a function for checking deadlocks. This function checks each dot on the board and tests any possible move to the right, and up. Then the board is not stuck if one of these movements can make a match. If no move that you try turns into a match, then the board is deadlocked.
+
+I also connected this check to the board refill flow. After matches are destroyed, the board refills, and the automatic matches are cleared. Then the game checks if the board is deadlocked. For now, it only prints “Deadlocked!!!” in the Console. Later, I can connect this to a shuffle system.
+
+This means that a match 3 game is not just about matching and destroying things. The game also has to make sure that the board is still playable after each refill.
