@@ -1,2 +1,15 @@
 fileFormatVersion: 2
 guid: 066d869ab903ed54aa5d00ed4d3c5d62
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - tilePrefab: {instanceID: 0}
+  - destroyEffect: {instanceID: 0}
+  - currentDot: {instanceID: 0}
+  - breakableTilePrefab: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

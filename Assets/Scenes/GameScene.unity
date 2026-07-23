@@ -402,7 +402,11 @@ MonoBehaviour:
   - {fileID: 1594911139569449899, guid: cae75074eac39674e8c366b95ae676a4, type: 3}
   destroyEffect: {fileID: 6121287019702266707, guid: a70883f55f9e7f049bb1ca0cb91a397d, type: 3}
   currentDot: {fileID: 0}
-  boardLayout: []
+  boardLayout:
+  - x: 2
+    y: 2
+    tileKind: 0
+  breakableTilePrefab: {fileID: 8073774837838150785, guid: 67db00c9e676c9d45893e81191c16ae7, type: 3}
 --- !u!4 &1623047403
 Transform:
   m_ObjectHideFlags: 0

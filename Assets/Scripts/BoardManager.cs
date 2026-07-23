@@ -46,12 +46,10 @@ public class BoardManager : MonoBehaviour
     {
         blankSpaces = new bool[width, height];
         breakableTiles = new BackgroundTile[width, height];
-        allTiles = new BackgroundTile[width, height];
         allDots = new GameObject[width, height];
 
         findMatches = Object.FindAnyObjectByType<FindMatches>();
 
-        DebugCreateBreakableTile();
         GenerateBlankSpaces();
         GenerateBreakableTiles();
         SetUp();
@@ -74,9 +72,10 @@ public class BoardManager : MonoBehaviour
             {
                 if (!blankSpaces[i, j])
                 {
-                    Vector2 tempPosition = new Vector2(i, j + offSet);
+                    Vector2 tilePosition = new Vector2(i, j);
+                    Vector2 dotPosition = new Vector2(i, j + offSet);
 
-                    GameObject tile = Instantiate(tilePrefab, tempPosition, Quaternion.identity);
+                    GameObject tile = Instantiate(tilePrefab, tilePosition, Quaternion.identity);
                     tile.transform.parent = this.transform;
                     tile.name = "(" + i + "," + j + ")";
 
@@ -89,7 +88,7 @@ public class BoardManager : MonoBehaviour
                         maxIterations++;
                     }
 
-                    GameObject dot = Instantiate(dots[dotToUse], tempPosition, Quaternion.identity);
+                    GameObject dot = Instantiate(dots[dotToUse], dotPosition, Quaternion.identity);
                     dot.GetComponent<Dot>().row = j;
                     dot.GetComponent<Dot>().column = i;
                     dot.transform.parent = this.transform;
@@ -131,11 +130,18 @@ public class BoardManager : MonoBehaviour
     {
         if (allDots[column, row].GetComponent<Dot>().isMatched)
         {
+            Debug.Log("Matched dot destroyed at: " + column + "," + row);
+
             findMatches.currentMatches.Remove(allDots[column, row]);
 
             if (breakableTiles[column, row] != null)
             {
+                Debug.Log("Breakable damaged at: " + column + "," + row);
                 breakableTiles[column, row].TakeDamage(1);
+            }
+            else
+            {
+                Debug.Log("No breakable tile at: " + column + "," + row);
             }
 
             GameObject effect = Instantiate(
@@ -213,7 +219,7 @@ public class BoardManager : MonoBehaviour
             return;
         }
 
-        Vector2 testPosition = new Vector2(0, 0 + offSet);
+        Vector2 testPosition = new Vector2(3, 3);
 
         GameObject tile = Instantiate(
             breakableTilePrefab,
@@ -223,6 +229,22 @@ public class BoardManager : MonoBehaviour
 
         tile.transform.parent = this.transform;
         tile.name = "DEBUG Breakable Tile";
+
+        SpriteRenderer sr = tile.GetComponent<SpriteRenderer>();
+
+        if (sr == null)
+        {
+            Debug.LogError("DEBUG Breakable Tile has NO SpriteRenderer!");
+            return;
+        }
+
+        if (sr.sprite == null)
+        {
+            Debug.LogError("DEBUG Breakable Tile SpriteRenderer has NO sprite assigned!");
+            return;
+        }
+
+        sr.sortingLayerName = "Default";
 
         Debug.Log("DEBUG breakable tile created at: " + testPosition);
     }
@@ -234,19 +256,16 @@ public class BoardManager : MonoBehaviour
 
         if (matchCount == 4)
         {
-            Debug.Log("Creating row/column bomb");
             findMatches.CheckBombs();
         }
         else if (matchCount >= 5)
         {
             if (ColumnOrRow())
             {
-                Debug.Log("Creating color bomb");
                 findMatches.CheckColorBombs();
             }
             else
             {
-                Debug.Log("Creating adjacent bomb");
                 findMatches.CheckAdjacentBombs();
             }
         }
@@ -297,10 +316,10 @@ public class BoardManager : MonoBehaviour
         {
             if (boardLayout[i].tileKind == TileKind.Breakable)
             {
-                Vector2 tempPosition = new Vector2(
-                    boardLayout[i].x,
-                    boardLayout[i].y + offSet
-                );
+                int x = boardLayout[i].x;
+                int y = boardLayout[i].y;
+
+                Vector2 tempPosition = new Vector2(x, y);
 
                 GameObject tile = Instantiate(
                     breakableTilePrefab,
@@ -309,18 +328,26 @@ public class BoardManager : MonoBehaviour
                 );
 
                 tile.transform.parent = this.transform;
-                tile.name = "Breakable Tile (" + boardLayout[i].x + "," + boardLayout[i].y + ")";
+                tile.name = "Breakable Tile (" + x + "," + y + ")";
 
-                SpriteRenderer sr = tile.GetComponent<SpriteRenderer>();
-                if (sr != null)
+                BackgroundTile backgroundTile = tile.GetComponent<BackgroundTile>();
+
+                if (backgroundTile == null)
                 {
-                    sr.sortingOrder = 2;
+                    Debug.LogError("Breakable Tile prefabýnda BackgroundTile scripti yok: " + x + "," + y);
+                }
+                else
+                {
+                    breakableTiles[x, y] = backgroundTile;
+                    Debug.Log("Breakable REGISTERED at: " + x + "," + y);
                 }
 
-                breakableTiles[boardLayout[i].x, boardLayout[i].y] =
-                    tile.GetComponent<BackgroundTile>();
+                SpriteRenderer sr = tile.GetComponent<SpriteRenderer>();
 
-                Debug.Log("Created breakable tile at: " + boardLayout[i].x + "," + boardLayout[i].y);
+                if (sr != null)
+                {
+                    sr.sortingOrder = -1;
+                }
             }
         }
     }
