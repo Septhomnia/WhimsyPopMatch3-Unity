@@ -1,0 +1,15 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+# Day 18 - Board Shuffle System
+
+*Date: 15 July 2026
+
+Today I've been working on the shuffle system for my match-3 game.
+
+I included a ShuffleBoard function. First it takes into a temporary list all the current dots on the board.  Then it clears the board array and puts those dots back into the board randomly. In so doing it ignores blank spaces, so dots will not appear in blocked cells.
+
+Then I moved each dot to a new spot and changed its row and column values. This is significant as the position of the dot in the array and the values of the dot’s row/column need to match. If they don't match, movement and match detection may fail.
+
+Also while shuffling I utilized MatchesAt function so fresh board doesn’t start with matches right away. If the shuffle is complete the game again checks to see if the board is still deadlocked. If it is still deadlocked, the board shuffles again. 
+
+This makes the game more playable because now the player should not get trapped if there are no possible steps.
