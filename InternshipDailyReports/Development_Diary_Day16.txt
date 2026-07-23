@@ -1,0 +1,17 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+# Day 16 - Breakable Tiles and Position Fix
+
+*Date: 13 July 2026
+
+Today I worked on the breakable tiles in my match-3 game.
+
+I added a BackgroundTile script for those tiles. Every breakable tile has hit points, when a matched dot is destroyed above it, it takes damage. If it gets down to 0 hit points it is gone.
+
+I also connected this system into the board layout. I was using the TileKind enum and the Board Layout array to determine what spots should be breakable from the Inspector. This makes it easy to later build multiple board layouts.
+
+At first the breakable tiles were visible on the board, but they weren't breaking. I used Debug.Log to see what is wrong. The logs showed the dots getting destroyed, but the game continued to show there was no breakable tile at that place.
+
+It was the problem of the position system. I figured out that I was confusing the spawn position and the board position. Because of the offset, dots are going to spawn from a higher position, while normal tiles and breakable tiles should stay at the normal board position. Once I split these spots, the breakable tile started taking damage and breaking as it was supposed to.
+
+This helped me get a better understanding of the board system. This is where the visual position and the array position need to match logically. If they do not match, then the game may look correct, but the code is not, going to find the right object.
