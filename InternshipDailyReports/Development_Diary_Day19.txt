@@ -1,0 +1,17 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+# Day 19 - Hint System
+
+*Date: 16 July 2026
+
+Today I implemented a hint system in my match-3 game.
+
+The idea was to help the player if he doesn't move for some time. After a few seconds the game should display a tip on one of the possible moves. So to do this I created a new script called HintManager.
+
+Added a delay timer to the hint manager script. If the player does not touch the board for a certain amount of time, the timer reaches zero, and the script looks for possible moves on the board.
+
+I used the board's switch and check logic to find possible moves. The script checks possible swaps to the right and upward and if a swap can create a match that dot is added to a list of possible moves . Then the script picks one of those possible moves at random and creates a hint particle on that dot.
+
+I also linked the hint system to player input. When the player clicks on a dot, the current hint is destroyed and the hint timer is reset. Therefore the hint does not remain on screen while the player is making a move.
+
+I also did the hint particle effect. I changed the gradient for the particles and figured out how to add new color and alpha markers in the Gradient Editor. This way I had control over how the hint effect looked and faded out.
