@@ -1,0 +1,13 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+# Day 20 - Game UI Layout
+
+*Date: 17 July 2026
+
+Today I worked on the UI layout for my match-3 game.
+
+I built a top UI section and rearranged the board around it. After installing the UI, it appeared to me that the candies were too close to the top of the screen, therefore, the layout didn’t look very tidy.  To fix this, I lowered the board and played with the camera/board position until there was enough room for the candies to appear under the UI.
+
+I also changed the board size because the screen looked a little crowded. There were fewer candies, and it was easier to understand the gaming area, and it was cleaner.
+
+While testing I kept looking at the Game view and made small changes until the UI and board felt more balanced. I learned that UI design also affects gameplay layout. New buttons and panels are not the only thing, you want the game features to still look good on screen, and most of the things should be separate so you can rearrange them.
