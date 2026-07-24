@@ -9,7 +9,7 @@ public class CameraScaler : MonoBehaviour
     public float cameraOffset = -10f;
     public float aspectRatio = 0.625f;
     public float padding = 2f;
-
+    public float yOffset = 1f;
     void Start()
     {
         board = Object.FindFirstObjectByType<BoardManager>();
@@ -22,7 +22,7 @@ public class CameraScaler : MonoBehaviour
 
     void RepositionCamera(float x, float y)
     {
-        Vector3 tempPosition = new Vector3(x / 2f, y / 2f, cameraOffset);
+        Vector3 tempPosition = new Vector3(x / 2f, y / 2f + yOffset, cameraOffset);
         transform.position = tempPosition;
 
         if (board.width >= board.height)
