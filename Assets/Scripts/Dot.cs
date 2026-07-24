@@ -38,7 +38,7 @@ public class Dot : MonoBehaviour
     private GameObject colorBombObject;
     public GameObject adjacentMarker;
     private GameObject adjacentMarkerObject;
-
+    private HintManager hintManager;
     void Start()
     {
 
@@ -47,8 +47,10 @@ public class Dot : MonoBehaviour
         isColorBomb = false;
         isAdjacentBomb = false;
 
+
         board = Object.FindFirstObjectByType<BoardManager>();
         findMatches = Object.FindFirstObjectByType<FindMatches>();
+        hintManager = Object.FindAnyObjectByType<HintManager>();
         //targetX = (int)transform.position.x;
         //targetY = (int)transform.position.y;
         //row = targetY;
@@ -196,6 +198,10 @@ public class Dot : MonoBehaviour
     }
     private void OnMouseDown()
     {
+        if (hintManager != null)
+        {
+            hintManager.DestroyHint();
+        }
         if (board.currentState == GameState.move)
         {
             firstTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);

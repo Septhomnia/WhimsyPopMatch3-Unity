@@ -430,7 +430,7 @@ public class BoardManager : MonoBehaviour
 
         return false;
     }
-    private bool SwitchAndCheck(int column, int row, Vector2 direction)
+    public bool SwitchAndCheck(int column, int row, Vector2 direction)
     {
         SwitchPieces(column, row, direction);
 
