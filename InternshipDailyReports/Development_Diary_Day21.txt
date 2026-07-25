@@ -1,0 +1,14 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+# Day 21 - Background Tiles, Board Alignment and Scoreboard
+
+*Date: 20 July 2026
+
+
+Today I worked on board visuals and score system.
+
+I put a transparent gray background tile behind the candies. I wanted a clearer board but I still wanted to see the background of the game. I kept changing the hue and transparency until it looked better with the rest of the game.
+
+I also solved a minor positioning issue. Before the candies and the backdrop tiles were utilizing the same place with offset. That made them look a bit odd.I changed the code so that the candies refer to tempPosition and the background tiles refer to tilePosition. The candies still fall from the top but the backdrop tiles are still at the real board position.After the update, the candies seemed more centered on the tiles.
+
+I added a scoreboard as well. Now the score goes up as game is played. I tried it in Play mode and I could see the score going up +60, +60 and on.
