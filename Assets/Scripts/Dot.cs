@@ -9,8 +9,8 @@ public class Dot : MonoBehaviour
     public int row;
     public int previousColumn;
     public int previousRow;
-    public int targetX;
-    public int targetY;
+    public float targetX;
+    public float targetY;
     public bool isMatched = false;
 
     private FindMatches findMatches;
@@ -79,8 +79,10 @@ public class Dot : MonoBehaviour
             mySprite.color = new Color(0f, 0f, 0f, .2f);
         }
         */
-        targetX = column;
-        targetY = row;
+        Vector2 targetPosition = board.GridToWorldPosition(column, row);
+
+        targetX = targetPosition.x;
+        targetY = targetPosition.y;
         if (Mathf.Abs(targetX - transform.position.x) > .1)
         {
             // Move towards the target

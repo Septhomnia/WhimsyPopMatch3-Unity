@@ -26,8 +26,16 @@ public class TileType
 
 public class BoardManager : MonoBehaviour
 {
+    [Header("Board Spacing")]
+    [SerializeField] private float xSpacing = 0.9f;
+    [SerializeField] private float ySpacing = 0.9f;
 
     public GameState currentState = GameState.move;
+    [Header("Score Settings")]
+    [SerializeField] private int basePieceValue = 20;
+
+    private int streakValue = 1;
+    private ScoreManager scoreManager;
     public int width;
     public int height;
     public int offSet;
@@ -49,6 +57,7 @@ public class BoardManager : MonoBehaviour
         allDots = new GameObject[width, height];
 
         findMatches = Object.FindAnyObjectByType<FindMatches>();
+        scoreManager = Object.FindFirstObjectByType<ScoreManager>();
 
         GenerateBlankSpaces();
         GenerateBreakableTiles();
@@ -79,8 +88,12 @@ public class BoardManager : MonoBehaviour
             {
                 if (!blankSpaces[i, j])
                 {
-                    Vector2 tilePosition = new Vector2(i, j);
-                    Vector2 dotPosition = new Vector2(i, j + offSet);
+                    Vector2 tilePosition = GridToWorldPosition(i, j);
+
+                    Vector2 dotPosition = GridToWorldPosition(
+                        i,
+                        j + offSet
+                    );
 
                     GameObject tile = Instantiate(tilePrefab, tilePosition, Quaternion.identity);
                     tile.transform.parent = this.transform;
@@ -104,6 +117,13 @@ public class BoardManager : MonoBehaviour
                 }
             }
         }
+    }
+    public Vector2 GridToWorldPosition(int column, int row)
+    {
+        return new Vector2(
+            column * xSpacing,
+            row * ySpacing
+        );
     }
     private bool MatchesAt(int column, int row, GameObject piece)
     {
@@ -158,6 +178,10 @@ public class BoardManager : MonoBehaviour
             );
 
             Destroy(effect, 1f);
+            if (scoreManager != null)
+            {
+                scoreManager.IncreaseScore(basePieceValue);
+            }
 
             Destroy(allDots[column, row]);
             allDots[column, row] = null;
@@ -226,7 +250,7 @@ public class BoardManager : MonoBehaviour
             return;
         }
 
-        Vector2 testPosition = new Vector2(3, 3);
+        Vector2 testPosition = GridToWorldPosition(3, 3);
 
         GameObject tile = Instantiate(
             breakableTilePrefab,
@@ -279,6 +303,7 @@ public class BoardManager : MonoBehaviour
     }
     public void DestroyMatches()
     {
+        streakValue = 1;
         CheckToMakeBombs();
 
         for (int i = 0; i < width; i++)
@@ -326,7 +351,7 @@ public class BoardManager : MonoBehaviour
                 int x = boardLayout[i].x;
                 int y = boardLayout[i].y;
 
-                Vector2 tempPosition = new Vector2(x, y);
+                Vector2 tempPosition = GridToWorldPosition(x, y);
 
                 GameObject tile = Instantiate(
                     breakableTilePrefab,
@@ -482,7 +507,7 @@ public class BoardManager : MonoBehaviour
             {
                 if (allDots[i, j] == null && !blankSpaces[i, j])
                 {
-                    Vector2 tempPosition = new Vector2(i, j + offSet);
+                    Vector2 tempPosition = GridToWorldPosition(i, j + offSet); 
                     int dotToUse = Random.Range(0, dots.Length);
                     GameObject piece = Instantiate(dots[dotToUse], tempPosition, Quaternion.identity);
                     allDots[i, j] = piece;
