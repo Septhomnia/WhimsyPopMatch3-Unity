@@ -207,13 +207,30 @@ public class FindMatches : MonoBehaviour
         {
             if (board.allDots[column, i] != null)
             {
-                dots.Add(board.allDots[column, i]);
+                GameObject currentPiece = board.allDots[column, i];
+                Dot dot = currentPiece.GetComponent<Dot>();
+
+                AddPieceToList(dots, currentPiece);
+
+                if (dot.isRowBomb)
+                {
+                    for (int j = 0; j < board.width; j++)
+                    {
+                        AddPieceToList(dots, board.allDots[j, i]);
+                    }
+                }
             }
         }
 
         return dots;
     }
-
+    private void AddPieceToList(List<GameObject> list, GameObject piece)
+    {
+        if (piece != null && !list.Contains(piece))
+        {
+            list.Add(piece);
+        }
+    }
     private List<GameObject> GetRowPieces(int row)
     {
         List<GameObject> dots = new List<GameObject>();
@@ -222,7 +239,18 @@ public class FindMatches : MonoBehaviour
         {
             if (board.allDots[i, row] != null)
             {
-                dots.Add(board.allDots[i, row]);
+                GameObject currentPiece = board.allDots[i, row];
+                Dot dot = currentPiece.GetComponent<Dot>();
+
+                AddPieceToList(dots, currentPiece);
+
+                if (dot.isColumnBomb)
+                {
+                    for (int j = 0; j < board.height; j++)
+                    {
+                        AddPieceToList(dots, board.allDots[i, j]);
+                    }
+                }
             }
         }
 
