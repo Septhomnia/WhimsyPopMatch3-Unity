@@ -1,0 +1,15 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+# Day 22 - Score Bar System
+
+*Date: 21 July 2026
+
+Today I did the score bar for my match-3 game.
+
+My score text used to work before this. I was actually scoring and making matches. Today I wanted to make it more visual, so I added a score bar . The score can be seen by the player not only as a number but also as a filling bar.
+
+In my ScoreManager script I created a variable called scoreBar and attached it to a UI Image. Now I created an UpdateBar method. This method changes the bars fill amount depending on the current score. So as the score goes up, the bar goes up.
+
+I had a little glitch when I was setting up the score text. I couldn't drag the score text into the ScoreManager box in the Inspector. I looked it up and found that my UI text was using TextMeshPro but in my code I was using the normal Text type. I changed it to TextMeshProUGUI and now I can assign it properly.
+
+I tested the score text and score bar and both worked in play mode. As I made matches the score went up and the bar began to fill up.
