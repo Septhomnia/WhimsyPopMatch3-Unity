@@ -37,6 +37,7 @@ public class BoardManager : MonoBehaviour
     private int streakValue = 1;
     private ScoreManager scoreManager;
     public int[] scoreGoals;
+    private SoundManager soundManager;
     public int width;
     public int height;
     public int offSet;
@@ -53,12 +54,14 @@ public class BoardManager : MonoBehaviour
     private BackgroundTile[,] breakableTiles;
     void Start()
     {
+
         blankSpaces = new bool[width, height];
         breakableTiles = new BackgroundTile[width, height];
         allDots = new GameObject[width, height];
 
         findMatches = Object.FindAnyObjectByType<FindMatches>();
         scoreManager = Object.FindFirstObjectByType<ScoreManager>();
+        soundManager = Object.FindAnyObjectByType<SoundManager>();
 
         GenerateBlankSpaces();
         GenerateBreakableTiles();
@@ -171,7 +174,10 @@ public class BoardManager : MonoBehaviour
             {
                 Debug.Log("No breakable tile at: " + column + "," + row);
             }
-
+            if (soundManager != null)
+            {
+                soundManager.PlayRandomDestroyNoise();
+            }
             GameObject effect = Instantiate(
                 destroyEffect,
                 allDots[column, row].transform.position,
