@@ -1,25 +1,60 @@
-using TMPro;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
+using TMPro;
 public class ScoreManager : MonoBehaviour
 {
-    [SerializeField] private TMP_Text scoreText;
+    private BoardManager board;
 
-    private int score = 0;
+    public TextMeshProUGUI scoreText;
+    public int score;
 
-    private void Start()
+    public Image scoreBar;
+
+    void Start()
     {
+        board = Object.FindAnyObjectByType<BoardManager>();
+
         UpdateScoreText();
+        UpdateBar();
     }
 
     public void IncreaseScore(int amountToIncrease)
     {
         score += amountToIncrease;
+
         UpdateScoreText();
+        UpdateBar();
     }
 
     private void UpdateScoreText()
     {
-        scoreText.text = score.ToString();
+        if (scoreText != null)
+        {
+            scoreText.text = score.ToString();
+        }
+    }
+
+    private void UpdateBar()
+    {
+        if (board == null || scoreBar == null)
+        {
+            return;
+        }
+
+        if (board.scoreGoals == null || board.scoreGoals.Length == 0)
+        {
+            return;
+        }
+
+        int goal = board.scoreGoals[0];
+
+        if (goal <= 0)
+        {
+            return;
+        }
+
+        scoreBar.fillAmount = Mathf.Clamp01((float)score / goal);
     }
 }

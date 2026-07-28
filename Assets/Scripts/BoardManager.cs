@@ -36,6 +36,7 @@ public class BoardManager : MonoBehaviour
 
     private int streakValue = 1;
     private ScoreManager scoreManager;
+    public int[] scoreGoals;
     public int width;
     public int height;
     public int offSet;
