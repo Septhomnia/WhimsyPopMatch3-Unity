@@ -1,0 +1,13 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+# Day 23 - Menu Animations
+
+*Date: 22 July 2026
+
+Today I was working on the menu animations for my match 3 game. 
+
+I used the Mecanim technology from Unity to animate the UI panels I animated the fading panel and the panel that shows game info.When the player clicks on the OK button, both panels slide off the screen. I also wrote a FadePanelController script for fading animation to be after clicking OK button. It controls the Animator components and sets the “Out” bool to true when the OK button is hit.
+
+Once the button was connected in Unity, the panels played the animation correctly.Initially I had a problem with the panel position values. I had different numbers than the tutorial, but that was because my Canvas layout was different. Then I thought I should enter the panel position of own, without copying the instructional data directly.
+
+Animation works when I fixed the keyframes and the RectTransform placements. The menu feels more fluid and the game feels more rounded.
