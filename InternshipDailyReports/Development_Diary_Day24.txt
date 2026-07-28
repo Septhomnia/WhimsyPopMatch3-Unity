@@ -1,0 +1,13 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+# Day 24 - Level Goal UI System
+
+*Date: 23 July 2026
+
+Worked on the level goal UI for my match-3 game today.
+
+Added a GoalManager script and began to build up goals for the level. I also made a GoalPanel prefab that is going to show the goal image and target amount (for example 0/5).
+
+Had some UI issues at the beginning. I wanted to show three goal panels side by side and just one was showing. In the Inspector I selected the GoalManager and checked that the size of Level Goals was 3. I then adjusted the Goal Container so that the panels could be place next to each other. I also had a problem with the GoalPanel prefab. I couldn’t get the picture and text items to drag into the script boxes properly so I fixed it by editing the script to find the Image and TextMeshPro components itself. This made the prefab easier to operate.
+
+After correcting these flaws the target UI started to behave better. Now the game can display several level goals on the start panel.
