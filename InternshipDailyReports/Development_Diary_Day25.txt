@@ -1,0 +1,15 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+# Day 25 - Goal Progress System
+
+*Date: 24 July 2026
+
+Today I worked on the goal mechanism of my match 3 game.
+
+I put the goal panels on the screen of the game so the player can see the goals while playing. Before now, the goals were mainly on the start panel, but I wanted them to stay visible during the game too. So I made a separate goal area for the gameplay screen and connected it up to the GoalManager.
+
+At first the goal panels were appearing, however as I made matches the numbers were not going up. I studied the logic and noticed that the goals were only being updated when a breakable tile was destroyed.  The candies that were matched were not yet connected to the goal system.
+
+To address this I altered the match/destroy logic. Now when a candy is destroyed its tag is given to the GoalManager.  If the tag matches one of the level goals, the goal number goes up. After testing it, goal progress began to update accurately during matches.
+
+I also began working on the end game system, but it is not complete yet. The win and lose panels still aren't visually working the way I want them to so I'll get to that section later.
