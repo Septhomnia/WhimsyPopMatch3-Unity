@@ -15,44 +15,82 @@ public class GoalManager : MonoBehaviour
 {
     public BlankGoal[] levelGoals;
 
-    public GameObject goalPrefab;
+    public GameObject introGoalPrefab;
+    public GameObject gameGoalPrefab;
+
     public GameObject goalIntroParent;
     public GameObject goalGameParent;
 
     public GoalPanel[] currentGoals;
 
+    private EndGameManager endGameManager;
+
     void Start()
     {
+        endGameManager = Object.FindAnyObjectByType<EndGameManager>();
         SetupGoals();
     }
 
     void SetupGoals()
     {
-        foreach (Transform child in goalIntroParent.transform)
-        {
-            Destroy(child.gameObject);
-        }
-
         currentGoals = new GoalPanel[levelGoals.Length];
 
-        Debug.Log("Goal count: " + levelGoals.Length);
+        // Clean intro goals
+        if (goalIntroParent != null)
+        {
+            foreach (Transform child in goalIntroParent.transform)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
+        // Clean game goals
+        if (goalGameParent != null)
+        {
+            foreach (Transform child in goalGameParent.transform)
+            {
+                Destroy(child.gameObject);
+            }
+        }
 
         for (int i = 0; i < levelGoals.Length; i++)
         {
-            Debug.Log("Creating goal: " + i);
+            // Goal shown on the intro panel
+            if (goalIntroParent != null && introGoalPrefab != null)
+            {
+                GameObject introGoal = Instantiate(introGoalPrefab, goalIntroParent.transform);
+                introGoal.transform.localScale = Vector3.one;
 
-            GameObject goal = Instantiate(goalPrefab, goalIntroParent.transform);
-            goal.transform.localScale = Vector3.one;
+                GoalPanel introPanel = introGoal.GetComponent<GoalPanel>();
 
-            GoalPanel panel = goal.GetComponent<GoalPanel>();
+                if (introPanel != null)
+                {
+                    introPanel.thisSprite = levelGoals[i].goalSprite;
+                    introPanel.thisString = "0/" + levelGoals[i].numberNeeded;
+                    introPanel.SetUp();
+                }
+            }
 
-            panel.thisSprite = levelGoals[i].goalSprite;
-            panel.thisString = "0/" + levelGoals[i].numberNeeded;
-            panel.SetUp();
+            // Goal shown during gameplay
+            if (goalGameParent != null && gameGoalPrefab != null)
+            {
+                GameObject gameGoal = Instantiate(gameGoalPrefab, goalGameParent.transform);
+                gameGoal.transform.localScale = Vector3.one;
 
-            currentGoals[i] = panel;
+                GoalPanel gamePanel = gameGoal.GetComponent<GoalPanel>();
+
+                if (gamePanel != null)
+                {
+                    gamePanel.thisSprite = levelGoals[i].goalSprite;
+                    gamePanel.thisString = "0/" + levelGoals[i].numberNeeded;
+                    gamePanel.SetUp();
+
+                    currentGoals[i] = gamePanel;
+                }
+            }
         }
     }
+
     public void CompareGoal(string goalToCompare)
     {
         for (int i = 0; i < levelGoals.Length; i++)
@@ -70,21 +108,30 @@ public class GoalManager : MonoBehaviour
 
         for (int i = 0; i < levelGoals.Length; i++)
         {
-            currentGoals[i].thisText.text =
-                levelGoals[i].numberCollected + "/" + levelGoals[i].numberNeeded;
+            if (currentGoals[i] != null && currentGoals[i].thisText != null)
+            {
+                currentGoals[i].thisText.text =
+                    levelGoals[i].numberCollected + "/" + levelGoals[i].numberNeeded;
+            }
 
             if (levelGoals[i].numberCollected >= levelGoals[i].numberNeeded)
             {
                 goalsCompleted++;
 
-                currentGoals[i].thisText.text =
-                    levelGoals[i].numberNeeded + "/" + levelGoals[i].numberNeeded;
+                if (currentGoals[i] != null && currentGoals[i].thisText != null)
+                {
+                    currentGoals[i].thisText.text =
+                        levelGoals[i].numberNeeded + "/" + levelGoals[i].numberNeeded;
+                }
             }
         }
 
         if (goalsCompleted >= levelGoals.Length)
         {
-            Debug.Log("You win!");
+            if (endGameManager != null)
+            {
+                endGameManager.WinGame();
+            }
         }
     }
 }

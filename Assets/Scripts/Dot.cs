@@ -30,7 +30,6 @@ public class Dot : MonoBehaviour
     public bool isRowBomb;
     public bool isAdjacentBomb;
 
-
     public GameObject rowArrow;
     public GameObject columnArrow;
     private GameObject arrow;
@@ -152,11 +151,11 @@ public class Dot : MonoBehaviour
             Dot otherDotScript = otherDot.GetComponent<Dot>();
 
             // Color bomb check
-            if (isColorBomb)
+            EndGameManager endGameManager = Object.FindAnyObjectByType<EndGameManager>();
+
+            if (endGameManager != null && endGameManager.requirements.gameType == GameType.Moves)
             {
-                findMatches.MatchPiecesOfColor(otherDot.tag);
-                isMatched = true;
-                board.DestroyMatches();
+                endGameManager.DecreaseCounterValue();
             }
             else if (otherDotScript.isColorBomb)
             {

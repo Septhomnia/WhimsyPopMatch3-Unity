@@ -7,7 +7,10 @@ using UnityEngine.UIElements;
 public enum GameState
 {
     wait,
-    move
+    move,
+    pause,
+    win,
+    lose
 }
 public enum TileKind
 {
@@ -30,7 +33,8 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private float xSpacing = 0.9f;
     [SerializeField] private float ySpacing = 0.9f;
 
-    public GameState currentState = GameState.move;
+    public GameState currentState = GameState.pause;
+    
     [Header("Score Settings")]
     [SerializeField] private int basePieceValue = 20;
 

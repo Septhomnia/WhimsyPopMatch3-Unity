@@ -7,18 +7,6 @@ public class FadePanelController : MonoBehaviour
     public Animator panelAnim;
     public Animator gameInfoAnim;
 
-    private BoardManager board;
-
-    private void Start()
-    {
-        board = Object.FindAnyObjectByType<BoardManager>();
-
-        if (board != null)
-        {
-            board.currentState = GameState.wait;
-        }
-    }
-
     public void OK()
     {
         if (panelAnim != null)
@@ -30,6 +18,24 @@ public class FadePanelController : MonoBehaviour
         {
             gameInfoAnim.SetBool("Out", true);
         }
+
+        StartCoroutine(GameStartCo());
+    }
+
+    public void GameOver()
+    {
+        if (panelAnim != null)
+        {
+            panelAnim.SetBool("Out", false);
+            panelAnim.SetBool("Game Over", true);
+        }
+    }
+
+    IEnumerator GameStartCo()
+    {
+        yield return new WaitForSeconds(1f);
+
+        BoardManager board = Object.FindAnyObjectByType<BoardManager>();
 
         if (board != null)
         {
