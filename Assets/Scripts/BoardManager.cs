@@ -42,6 +42,7 @@ public class BoardManager : MonoBehaviour
     private ScoreManager scoreManager;
     public int[] scoreGoals;
     private SoundManager soundManager;
+    private GoalManager goalManager;
     public int width;
     public int height;
     public int offSet;
@@ -66,6 +67,7 @@ public class BoardManager : MonoBehaviour
         findMatches = Object.FindAnyObjectByType<FindMatches>();
         scoreManager = Object.FindFirstObjectByType<ScoreManager>();
         soundManager = Object.FindAnyObjectByType<SoundManager>();
+        goalManager = Object.FindAnyObjectByType<GoalManager>();
 
         GenerateBlankSpaces();
         GenerateBreakableTiles();
@@ -164,11 +166,13 @@ public class BoardManager : MonoBehaviour
     private void DestroyMatchesAt(int column, int row)
     {
         if (allDots[column, row].GetComponent<Dot>().isMatched)
-        {
-            Debug.Log("Matched dot destroyed at: " + column + "," + row);
-
+        { 
             findMatches.currentMatches.Remove(allDots[column, row]);
-
+            if (goalManager != null)
+            {
+                goalManager.CompareGoal(allDots[column, row].tag);
+                goalManager.UpdateGoals();
+            }
             if (breakableTiles[column, row] != null)
             {
                 Debug.Log("Breakable damaged at: " + column + "," + row);
