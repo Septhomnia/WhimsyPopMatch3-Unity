@@ -1,0 +1,21 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+# Day 27 - Move Counter and End Game Fixes
+
+*Date: 28 July 2026
+
+Worked on levels system today for my match-3 game.
+
+I began to use ScriptableObjects to hold level data. This was previously all in the scene or in separate managers, a lot of level info. This could get messy later, especially if I want to make more than one level. So I made a Level ScriptableObject and a World ScriptableObject.
+
+The Level object holds the information for one level. It covers the board width, height, board layout, available dots, score objectives, level goals and end game criteria. All of the levels are stored together in the World object, so the game may choose which one to load.
+
+I changed the BoardManager so it may read the data of the level selected from the World object. This implies that the board size, dots, score objectives and layout can be taken from the Level asset immediately, instead of having to update it manually in the scene each time.
+
+I also linked the GoalManager up to the level data. Now the level goals can be taken from the specified Level asset. I also added end game requirements to the Level asset so that each level can have its own move or time condition.
+
+At initially some fields were not in the Level Inspector. For example, the End Game Requirements section was not displaying. I figure out this by adding the missing field in the level script, then I try to put the level asset on Unity and had the right parameters.
+
+This made the project seem more organized, as each level may now have their own data in one area.
+
+Next I am going to work on the level pick system and the main menu. I want to develop a simple menu, where the player may start the game and choose a level. This will assist connect the level data system to the game flow itself.
