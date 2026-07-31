@@ -29,6 +29,10 @@ public class TileType
 
 public class BoardManager : MonoBehaviour
 {
+    [Header("Scriptable Object Stuff")]
+    public World world;
+    public int level;
+
     [Header("Board Spacing")]
     [SerializeField] private float xSpacing = 0.9f;
     [SerializeField] private float ySpacing = 0.9f;
@@ -57,6 +61,23 @@ public class BoardManager : MonoBehaviour
     private bool[,] blankSpaces;
     public GameObject breakableTilePrefab;
     private BackgroundTile[,] breakableTiles;
+    private void Awake()
+    {
+        if (world != null)
+        {
+            if (level < world.levels.Length)
+            {
+                if (world.levels[level] != null)
+                {
+                    width = world.levels[level].width;
+                    height = world.levels[level].height;
+                    dots = world.levels[level].dots;
+                    scoreGoals = world.levels[level].scoreGoals;
+                    boardLayout = world.levels[level].boardLayout;
+                }
+            }
+        }
+    }
     void Start()
     {
 

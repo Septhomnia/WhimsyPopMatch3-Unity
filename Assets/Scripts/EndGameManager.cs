@@ -38,6 +38,7 @@ public class EndGameManager : MonoBehaviour
         board = Object.FindAnyObjectByType<BoardManager>();
         fadePanel = Object.FindAnyObjectByType<FadePanelController>();
 
+        GetEndGameRequirements();
         SetupGame();
     }
 
@@ -85,7 +86,22 @@ public class EndGameManager : MonoBehaviour
             youWinPanel.SetActive(false);
         }
     }
-
+    void GetEndGameRequirements()
+    {
+        if (board != null)
+        {
+            if (board.world != null)
+            {
+                if (board.level < board.world.levels.Length)
+                {
+                    if (board.world.levels[board.level] != null)
+                    {
+                        requirements = board.world.levels[board.level].endGameRequirements;
+                    }
+                }
+            }
+        }
+    }
     public void DecreaseCounterValue()
     {
         if (board == null)

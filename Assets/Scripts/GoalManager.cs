@@ -13,6 +13,8 @@ public class BlankGoal
 
 public class GoalManager : MonoBehaviour
 {
+    private BoardManager board;
+
     public BlankGoal[] levelGoals;
 
     public GameObject introGoalPrefab;
@@ -27,10 +29,12 @@ public class GoalManager : MonoBehaviour
 
     void Start()
     {
+        board = Object.FindAnyObjectByType<BoardManager>();
         endGameManager = Object.FindAnyObjectByType<EndGameManager>();
+
+        GetGoals();
         SetupGoals();
     }
-
     void SetupGoals()
     {
         currentGoals = new GoalPanel[levelGoals.Length];
@@ -98,6 +102,22 @@ public class GoalManager : MonoBehaviour
             if (goalToCompare == levelGoals[i].matchValue)
             {
                 levelGoals[i].numberCollected++;
+            }
+        }
+    }
+    void GetGoals()
+    {
+        if (board != null)
+        {
+            if (board.world != null)
+            {
+                if (board.level < board.world.levels.Length)
+                {
+                    if (board.world.levels[board.level] != null)
+                    {
+                        levelGoals = board.world.levels[board.level].levelGoals;
+                    }
+                }
             }
         }
     }
