@@ -151,17 +151,33 @@ public class Dot : MonoBehaviour
             Dot otherDotScript = otherDot.GetComponent<Dot>();
 
             // Color bomb check
-            EndGameManager endGameManager = Object.FindAnyObjectByType<EndGameManager>();
-
-            if (endGameManager != null && endGameManager.requirements.gameType == GameType.Moves)
+            if (isColorBomb)
             {
-                endGameManager.DecreaseCounterValue();
+                findMatches.MatchPiecesOfColor(otherDot.tag);
+                isMatched = true;
+
+                board.DestroyMatches();
+
+                EndGameManager endGameManager = Object.FindAnyObjectByType<EndGameManager>();
+
+                if (endGameManager != null && endGameManager.requirements.gameType == GameType.Moves)
+                {
+                    endGameManager.DecreaseCounterValue();
+                }
             }
             else if (otherDotScript.isColorBomb)
             {
                 findMatches.MatchPiecesOfColor(this.gameObject.tag);
                 otherDotScript.isMatched = true;
+
                 board.DestroyMatches();
+
+                EndGameManager endGameManager = Object.FindAnyObjectByType<EndGameManager>();
+
+                if (endGameManager != null && endGameManager.requirements.gameType == GameType.Moves)
+                {
+                    endGameManager.DecreaseCounterValue();
+                }
             }
             else
             {
@@ -186,8 +202,16 @@ public class Dot : MonoBehaviour
                 }
                 else
                 {
-                    // Valid move, destroy matched dots
+                    // Valid move, destroy matched dots first
                     board.DestroyMatches();
+
+                    // Then decrease move counter
+                    EndGameManager endGameManager = Object.FindAnyObjectByType<EndGameManager>();
+
+                    if (endGameManager != null && endGameManager.requirements.gameType == GameType.Moves)
+                    {
+                        endGameManager.DecreaseCounterValue();
+                    }
                 }
             }
         }

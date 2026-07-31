@@ -163,6 +163,10 @@ public class EndGameManager : MonoBehaviour
 
     public void LoseGame()
     {
+        if (board != null && board.currentState == GameState.win)
+        {
+            return;
+        }
         if (tryAgainPanel != null)
         {
             tryAgainPanel.SetActive(true);
