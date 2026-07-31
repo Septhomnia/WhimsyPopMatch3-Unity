@@ -1,0 +1,17 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+# Day 26 - Move Counter and End Game Fixes
+
+*Date: 27 July 2026
+
+Today I worked on the move counter and end-game sections of my match-3 game.
+
+After I added the end game circumstances I noticed an issue in Moves mode. The counter worked, however the candies did not always destroy properly. I opened Dot.cs and saw that the move counter was placed before the match flow was complete. This way the game may go to the lose condition to early when the counter reached zero.
+
+To fix this I modified the code order. The game now checks the match first, destroys the matched candies, changes the score and goals, and then decrements the move counter. After this adjustment candies began to destroy right in Moves mode again.
+
+I also did more work on the end game panels. You Win panel and Try Again panel now working. The Try Again panel can show up when the player loses and the You Win panel can show up when the goals are fulfilled with limited moves.
+
+I'll look at that part later, the OK button is not working well currently. For now I focused on adjusting the match flow and making sure the end game panels can display correctly.
+
+Next I will look at the reason why the OK button isn’t working properly. I also want to keep testing the move counter, objective progress, Try Again panel and You Win panel together, and hopefully I am going to try to develop some extra levels.
