@@ -12,9 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61c1f764a2f9c0b42b28163c91e2bb59, type: 3}
   m_Name: Level 3
   m_EditorClassIdentifier: 
-  width: 0
-  height: 0
+  width: 4
+  height: 4
   boardLayout: []
-  dots: []
-  scoreGoals: 
-  levelGoals: []
+  dots:
+  - {fileID: 5535829197739919204, guid: 9953950b89a45ff4cbaf7c610d0c87c8, type: 3}
+  - {fileID: 6382228878329404497, guid: b71840a233e439246a97b4cde0129238, type: 3}
+  - {fileID: 8796074224460751477, guid: bddbdb4f24ad7a54d8544e90e26303e3, type: 3}
+  - {fileID: 1594911139569449899, guid: cae75074eac39674e8c366b95ae676a4, type: 3}
+  scoreGoals: 64000000
+  levelGoals:
+  - numberNeeded: 7
+    numberCollected: 10
+    goalSprite: {fileID: 6693627809348885127, guid: a9b9d520f7babcc46b244dd2504f3024, type: 3}
+    matchValue: Yellow Dot
+  endGameRequirements:
+    gameType: 0
+    counterValue: 30
