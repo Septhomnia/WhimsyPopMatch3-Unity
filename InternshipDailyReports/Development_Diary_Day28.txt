@@ -1,0 +1,17 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+# Day 28 - Level Selection and Scene Transition Setup
+
+*Date: 29 July 2026
+
+Today, I worked on the level choosing component of my Match-3 game.  I set up the level selection panel and started working on scene transitions.
+
+First of all I edited LevelButton script . I created distinct sprites for active and locked levels.  If a level is active, the player can click the button and see the level number.  If the level is locked, the button is unclickable, the locked sprite is displayed and the level number is invisible.
+
+I also set up the level buttons to a confirmation screen: The player clicks on the available level and the selected level number is delivered to the confirmation screen. Then you see the panel. The player will use this panel before entering the level.
+
+I made a new script. It uses a function to load another scene. For now, I can enter the name of the scene in the Unity Inspector. I can use this code for buttons that go back to the splash screen or open another menu.
+
+I also worked on linking the selected level information to the gameboard: The Board script now takes in width, height, available game pieces and score goals from the selected level data. The goals are also taken from the current level in the GoalManager script and the gathered goal values are reset when the level begins.
+
+Today I learnt more about level selection systems, locked and unlocked buttons, modifying UI sprites, confirmation panels, loading scenes and using level data in multiple scripts. Didn't get the transition system finished today but got the major setup done and started the coding part.
