@@ -1,0 +1,15 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+# Day 29 - Basic Binary Save and Load System
+
+*Date: 30 July 2026
+
+Today, I was working on the save and load system. I wanted to save the player progress so the information wouldn’t be lost while changing sceneries or reopening the game.
+
+First, I developed a class called SavedData which is serializable. In this class I added arrays to hold the unlocked levels, the player’s high scores and the amount of stars achieved in each level.
+
+After that I wrote the GameData script to handle this information. I used a special function so that the GameData object would maintain between scene changes. I also added a check for to be able to make sure there can only be one game data object at a time. Next, I wrote Save() method. This approach saves current player data within a special binary file. I used a data path as it gives a nice place to save game data on the device.
+
+I also did the Load() technique. The script initially verifies whether the save file exists. If it exists the saved information is read from the file and loaded back into the game.
+
+Today I discovered how Unity can save the player progress between scenes and playthroughs. I also learned about serializable classes, binary files, persistent data and pathways. With the basic save and load mechanism done, I still need to look after to the level buttons, scores and stars.
