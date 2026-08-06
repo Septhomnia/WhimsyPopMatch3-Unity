@@ -1,0 +1,17 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+# Day 30 - Connecting Saved Progress and Preparing for Android Build
+
+*Date: 31 July 2026
+
+My internship is over today. I continued to work on the save system and related the saved player information to different sections of my Match-3 game.
+
+First I changed the script ScoreManager. So now , when the player gets points , the script compares the current score to the saved top score for that level. If the new score is greater it replaces the old high score. Then the new information is stored.
+
+Also reworked the ConfirmPanel script. The panel now loads the high score and # of stars gained for the level when a level is selected. This info is provided on the panel before the level starts. I have created a way for activating the correct number of star pictures.
+
+After that I connected the saved data to the LevelButton script. All buttons verify whether the level is unlocked and how many stars were won before. This way the level selection screen can show the player’s true progress instead of temporary data.
+
+I also changed the win and losing buttons. When a level is won the next level will be unlocked and the game will return to the level selection screen. If you lose the game resets and the following level is not unlocked.
+
+After finalizing these adjustments I looked into how to build a Unity project for Android.
