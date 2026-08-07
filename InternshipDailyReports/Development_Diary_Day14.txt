@@ -1,0 +1,15 @@
+## Internship Development Diary — Whimsy Pop Match-3 Game
+
+## Day 14 – Gameplay Testing and Board Adjustments
+
+*Date: 09 July 2026
+
+## What I Worked On
+
+Today I spent most of my time testing out the gameplay systems I had put in place during the last several days. I played the game a few times to test if the matching bomb mechanisms worked well together.
+
+During testing , I paid attention to the reaction of the game pieces when a match was destroyed . I observed if the rest of the pieces fell down correctly and if new pieces were generated in the empty spaces . I also experimented with other combinations of matches to check if after a number of movements the board still worked appropriately.
+
+I also took time to verify the general arrangement of board and position of game pieces. While testing several board circumstances, I found that the visual location of the board would also need some adjustments before handling different screen and board sizes. This helped me get ready for the next part of the project where I planned to focus on camera location and board scaling.
+
+Most of the work done today was testing, debugging and tiny tweaks, not adding a whole new feature. This was helpful since I could see how the mechanisms I built on earlier days worked together in actual games. Also found out that I should make sure to test the existing features before adding new systems to the project.
